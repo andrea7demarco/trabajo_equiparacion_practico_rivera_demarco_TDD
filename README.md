@@ -1,7 +1,5 @@
 # Test-Driven Development: fundamentos y aplicación
 
----
-
 ## Introducción
 
 El desarrollo guiado por pruebas (Test-Driven Development, por sus siglas en inglés, TDD) es una práctica de diseño de software que representa un cambio cultural en la forma de desarrollo: las pruebas se escriben antes que el código.
@@ -17,12 +15,12 @@ Este trabajo propone, en su parte teórica, sintetizar fundamentos y evidencia d
 
 ## Índice
 
-- [Fundamentos de TDD](01-fundamentos-tdd.md)
-- [Objetivos de TDD](02-objetivos-tdd.md)
-- [Las distintas direcciones de TDD](03-direcciones-tdd.md)
-- [Ventajas de TDD](04-ventajas-tdd.md)
-- [Limitaciones y críticas](05-limitaciones-y-criticas.md)
-- [Conclusiones de la teoría](06-conclusiones-teoria.md)
+- [Fundamentos de TDD](docs/01-fundamentos-tdd.md)
+- [Objetivos de TDD](docs/02-objetivos-tdd.md)
+- [Las distintas direcciones de TDD](docs/03-direcciones-tdd.md)
+- [Ventajas de TDD](docs/04-ventajas-tdd.md)
+- [Limitaciones y críticas](docs/05-limitaciones-y-criticas.md)
+- [Conclusiones de la teoría](docs/06-conclusiones-teoria.md)
 
 ## Bibliografía consultada
 
