@@ -1,0 +1,74 @@
+# Visual Studio / .NET defaults
+## Build Folders
+bin/
+obj/
+artifacts/
+publish/
+
+## Visual Studio workspace files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+*.sln.iml
+
+## VS Code
+.vscode/
+
+## NuGet
+*.nupkg
+packages/
+.nuget/packages/
+
+## dotnet
+project.lock.json
+project.fragment.lock.json
+project.assets.json
+
+## Logs and test results
+*.log
+TestResults/
+coverage/
+coverage.*
+
+## User secrets and local settings
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+
+## Generated files
+*.g.cs
+*.g.i.cs
+*.generated.cs
+*.designer.cs
+*.sourcelink.json
+
+## Static web assets & tools
+staticwebassets.build.json
+staticwebassets.*.json
+
+## OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Database files
+*.db
+*.sqlite
+
+## Ignore publish output from dotnet publish
+publish*/
+
+# Ignore JetBrains Rider caches
+/.idea/
+
+# Temporary files
+*.bak
+*.tmp
+
+# Avoid committing local user-level tool state
+*.vsconfig
