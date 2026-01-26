@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trabajo_equiparacion_practico_rivera_demarco_TDD", "trabajo_equiparacion_practico_rivera_demarco_TDD.csproj", "{437E789D-2927-EA9F-9B72-44B7ACD60BC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{437E789D-2927-EA9F-9B72-44B7ACD60BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437E789D-2927-EA9F-9B72-44B7ACD60BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437E789D-2927-EA9F-9B72-44B7ACD60BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437E789D-2927-EA9F-9B72-44B7ACD60BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {363A3DA8-43ED-4E24-AB80-0710356BF57C}
+	EndGlobalSection
+EndGlobal
