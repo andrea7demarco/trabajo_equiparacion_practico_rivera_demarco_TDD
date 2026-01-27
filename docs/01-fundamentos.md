@@ -21,4 +21,4 @@ Esta característica es la que posiciona a TDD como una técnica de diseño, don
 
 ---
 
-⬅️ [Volver al índice](../README.md) | [Siguiente](02-objetivos-tdd.md) ➡️
+⬅️ [Volver al índice](../README.md) | [Siguiente](02-objetivos.md) ➡️
