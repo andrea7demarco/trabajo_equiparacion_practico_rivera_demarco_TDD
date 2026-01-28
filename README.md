@@ -17,7 +17,7 @@ Este trabajo propone, en su parte teórica, sintetizar fundamentos y evidencia d
 
 - [Fundamentos de TDD](docs/01-fundamentos.md)
 - [Objetivos de TDD](docs/02-objetivos.md)
-- [Las distintas direcciones de TDD](docs/03-direcciones.md)
+- [Las distintas direcciones de TDD](docs/03-variantes.md)
 - [Ventajas de TDD](docs/04-ventajas.md)
 - [Limitaciones y críticas](docs/05-limitaciones-y-criticas.md)
 - [Conclusiones de la teoría](docs/06-conclusiones-teoria.md)
