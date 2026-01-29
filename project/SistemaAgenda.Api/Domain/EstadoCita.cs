@@ -1,6 +1,6 @@
 namespace SistemaAgenda.Api.Domain;
 
-public enum EstadoTurno
+public enum EstadoCita
 {
     Pendiente,
     Cancelado

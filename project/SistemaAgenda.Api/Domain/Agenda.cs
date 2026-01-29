@@ -2,9 +2,9 @@ namespace SistemaAgenda.Api.Domain;
 
 public class Agenda
 {
-    public bool eliminarTurno(Turno turno)
+    public bool eliminarTurno(Cita turno)
     {
-        turno.Estado = EstadoTurno.Cancelado;
+        turno.Estado = EstadoCita.Cancelado;
         return true;
     }
 }
