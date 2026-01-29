@@ -1,6 +1,0 @@
-@sistema_agenda_tdd_HostAddress = http://localhost:5027
-
-GET {{sistema_agenda_tdd_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SistemaAgenda.Api/SistemaAgenda.Api.csproj" />
+  <Project Path="SistemaAgenda.Tests/SistemaAgenda.Tests.csproj" />
+</Solution>
