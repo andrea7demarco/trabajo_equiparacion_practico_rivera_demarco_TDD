@@ -14,7 +14,7 @@ public class EliminarCitaTestCase
             Estado = EstadoCita.Pendiente
         };
 
-        var resultado = agenda.eliminarTurno(cita);
+        var resultado = agenda.eliminarCita(cita);
 
         // Como el turno está pendiente, la operación debería retornar true
         // y el turno debería eliminarse    
@@ -23,5 +23,17 @@ public class EliminarCitaTestCase
         // Si el turno es eliminado correctamente, debe cambiar su
         // estado a cancelado
         Assert.True(cita.Estado == EstadoCita.Cancelado);
+    }
+
+    [Fact]
+    public void TestEliminarTurnoCancelado()
+    {
+        var agenda = new Agenda();
+        var cita = new Cita()
+        {
+            Estado = EstadoCita.Confirmado
+        };
+
+        Assert.False(agenda.eliminarCita(cita));
     }
 }
