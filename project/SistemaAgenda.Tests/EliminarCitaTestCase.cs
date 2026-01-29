@@ -19,5 +19,9 @@ public class EliminarCitaTestCase
         // Como el turno está pendiente, la operación debería retornar true
         // y el turno debería eliminarse    
         Assert.True(resultado);
+
+        // Si el turno es eliminado correctamente, debe cambiar su
+        // estado a cancelado
+        Assert.True(turno.Estado == EstadoTurno.Cancelado);
     }
 }
