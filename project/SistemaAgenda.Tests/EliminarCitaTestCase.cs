@@ -5,10 +5,16 @@ namespace SistemaAgenda.Tests;
 // Caso de uso: CU-03 -> Eliminar una cita
 public class EliminarCitaTestCase
 {
+    private readonly Agenda agenda;
+
+    public EliminarCitaTestCase()
+    {
+        agenda = new Agenda();
+    }
+
     [Fact]
     public void TestEliminarTurnoPendiente()
     {
-        var agenda = new Agenda();
         var cita = new Cita()
         {
             Estado = EstadoCita.Pendiente
@@ -28,7 +34,6 @@ public class EliminarCitaTestCase
     [Fact]
     public void TestEliminarTurnoConfirmado()
     {
-        var agenda = new Agenda();
         var cita = new Cita()
         {
             Estado = EstadoCita.Confirmado
@@ -41,7 +46,6 @@ public class EliminarCitaTestCase
     [Fact]
     public void TestEliminarTurnoProximo()
     {
-        var agenda = new Agenda();
         var cita = new Cita()
         {
             Fecha = DateTime.Now.AddHours(2),
@@ -59,7 +63,6 @@ public class EliminarCitaTestCase
     [Fact]
     public void TestEliminarTurnoYaCancelado()
     {
-        var agenda = new Agenda();
         var cita = new Cita()
         {
             Estado = EstadoCita.Cancelado
