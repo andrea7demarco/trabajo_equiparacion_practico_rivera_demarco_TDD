@@ -41,10 +41,12 @@ public class Agenda
 
     public List<Cita> consultarCitas(string dni)
     {
+        if (string.IsNullOrEmpty(dni))
+            return new List<Cita>();
         if (!string.Equals(_dniUsuarioLogueado, dni, StringComparison.OrdinalIgnoreCase))
             return new List<Cita>();
 
-        return _citasProgramadas.FindAll(cita => string.Equals(cita.UsuarioAsignado.Dni, dni, StringComparison.OrdinalIgnoreCase))
+        return _citasProgramadas.Where(cita => string.Equals(cita.UsuarioAsignado.Dni, dni, StringComparison.OrdinalIgnoreCase))
                                 .ToList();
     }
 }

@@ -138,4 +138,41 @@ public class ConsultarCitasTestCase
         List<Cita> resultado = agenda.consultarCitas("26012488");
         Assert.Empty(resultado);
     }
+
+    [Fact]
+    public void TestConsultarDniInvalidos()
+    {
+        string? dniNulo = null;
+        string dniVacio = string.Empty;
+        string dniConLetras = "F1341216";
+        string dniFormatoInvalido = "45.060.776";
+
+        var agenda = new Agenda()
+        {
+            CitasProgramadas = new List<Cita>
+            {
+                new Cita() { 
+                    UsuarioAsignado = new Usuario() { Dni = "45060776" }, 
+                    Fecha = DateTime.Now.AddDays(1), 
+                    Estado = EstadoCita.Pendiente 
+                }
+            }
+        };
+
+        List<Cita> resultado = agenda.consultarCitas(dniNulo);
+        Assert.NotNull(resultado);
+        Assert.Empty(resultado);
+
+        resultado = agenda.consultarCitas(dniVacio);
+        Assert.NotNull(resultado);
+        Assert.Empty(resultado);
+
+        resultado = agenda.consultarCitas(dniConLetras);
+        Assert.NotNull(resultado);
+        Assert.Empty(resultado);
+
+        resultado = agenda.consultarCitas(dniFormatoInvalido);
+        Assert.NotNull(resultado);
+        Assert.Empty(resultado);
+    }
 }
