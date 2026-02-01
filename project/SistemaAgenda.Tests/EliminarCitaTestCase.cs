@@ -35,6 +35,7 @@ public class EliminarCitaTestCase
         };
 
         Assert.False(agenda.eliminarCita(cita));
+        Assert.Equal(EstadoCita.Confirmado, cita.Estado);
     }
 
     [Fact]
@@ -48,9 +49,10 @@ public class EliminarCitaTestCase
         };
 
         Assert.False(agenda.eliminarCita(cita));
+        Assert.Equal(EstadoCita.Pendiente, cita.Estado);
 
         cita.Fecha = DateTime.Now.AddHours(2).AddSeconds(1);
-        
+
         Assert.True(agenda.eliminarCita(cita));
     }
 }
