@@ -50,14 +50,17 @@ public class Agenda
                                 .ToList();
     }
 
-    public Cita consultarCita(string dni, DateTime fecha)
+    public Cita? consultarCita(string dni, DateTime fecha)
     {
-        return _citasProgramadas.First(cita => cita.UsuarioAsignado.Dni == dni && cita.Fecha == fecha);
+        return _citasProgramadas.FirstOrDefault(cita => cita.UsuarioAsignado.Dni == dni && cita.Fecha == fecha);
     }
 
     public bool confirmarCita(string dni, DateTime fecha)
     {
         var citaConsultada = consultarCita(dni, fecha);
+        if (citaConsultada == null)
+            return false;
+            
         citaConsultada.Estado = EstadoCita.Confirmado;
         return true;
     }

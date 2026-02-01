@@ -50,4 +50,18 @@ public class ConfirmarCitaTestCase
         Assert.NotNull(cita);
         Assert.Equal(EstadoCita.Confirmado, cita.Estado);
     }
+
+    [Fact]
+    public void TestConfirmarCitaInexistente()
+    {
+        var dniUsuarioLogueado = "45060776";
+        var fechaCita = DateTime.Now.AddDays(4);
+        var agenda = new Agenda()
+        {
+            DniUsuarioLogueado = dniUsuarioLogueado,
+            CitasProgramadas = new List<Cita>()
+        };
+
+        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCita));
+    }
 }
