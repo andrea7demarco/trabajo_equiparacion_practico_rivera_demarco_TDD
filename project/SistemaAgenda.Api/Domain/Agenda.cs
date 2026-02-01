@@ -52,6 +52,8 @@ public class Agenda
 
     public bool confirmarCita(string dni, DateTime fecha)
     {
+        var citaConsultada = consultarCitas(dni).First(cita => cita.Fecha == fecha);
+        citaConsultada.Estado = EstadoCita.Confirmado;
         return true;
     }
 }

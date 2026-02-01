@@ -29,18 +29,25 @@ public class ConfirmarCitaTestCase
                 new Cita()
                 {
                     UsuarioAsignado = usuarioLogueado,
-                    Fecha = DateTime.Now.AddDays(4),
-                    Estado = EstadoCita.Pendiente
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioLogueado,
                     Fecha = new DateTime(2025, 12, 12),
                     Estado = EstadoCita.Cancelado
                 },
+                // Cita a confirmar
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioLogueado,
+                    Fecha = fechaCita,
+                    Estado = EstadoCita.Pendiente
+                }
             }
         };
 
+        // Verifico que la cita se confirme
         Assert.True(agenda.confirmarCita(usuarioLogueado.Dni, fechaCita));
+
+        // Verifico que el estado de la cita se modifique a 'Confirmado'
+        var cita = agenda.consultarCitas(usuarioLogueado.Dni).First(cita => cita.Fecha == fechaCita);
+        Assert.NotNull(cita);
+        Assert.Equal(EstadoCita.Confirmado, cita.Estado);
     }
 }
