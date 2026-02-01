@@ -49,4 +49,9 @@ public class Agenda
         return _citasProgramadas.Where(cita => string.Equals(cita.UsuarioAsignado.Dni, dni, StringComparison.OrdinalIgnoreCase))
                                 .ToList();
     }
+
+    public bool confirmarCita(string dni, DateTime fecha)
+    {
+        return true;
+    }
 }
