@@ -26,7 +26,7 @@ public class EliminarCitaTestCase
     }
 
     [Fact]
-    public void TestEliminarTurnoCancelado()
+    public void TestEliminarTurnoConfirmado()
     {
         var agenda = new Agenda();
         var cita = new Cita()
@@ -54,5 +54,17 @@ public class EliminarCitaTestCase
         cita.Fecha = DateTime.Now.AddHours(2).AddSeconds(1);
 
         Assert.True(agenda.eliminarCita(cita));
+    }
+
+    [Fact]
+    public void TestEliminarTurnoYaCancelado()
+    {
+        var agenda = new Agenda();
+        var cita = new Cita()
+        {
+            Estado = EstadoCita.Cancelado
+        };
+
+        Assert.False(agenda.eliminarCita(cita));
     }
 }

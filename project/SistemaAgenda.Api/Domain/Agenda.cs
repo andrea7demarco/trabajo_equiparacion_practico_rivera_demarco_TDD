@@ -4,7 +4,7 @@ public class Agenda
 {
     public bool eliminarCita(Cita turno)
     {
-        if (turno.Estado == EstadoCita.Confirmado)
+        if (turno.Estado == EstadoCita.Confirmado || turno.Estado == EstadoCita.Cancelado)
             return false;
 
         TimeSpan timeSpan = DateTime.Now - turno.Fecha;
