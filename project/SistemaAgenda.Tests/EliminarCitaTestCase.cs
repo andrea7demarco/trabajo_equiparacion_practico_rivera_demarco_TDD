@@ -15,11 +15,7 @@ public class EliminarCitaTestCase
     [Fact]
     public void TestEliminarTurnoPendiente()
     {
-        var cita = new Cita()
-        {
-            Estado = EstadoCita.Pendiente
-        };
-
+        var cita = new Cita();
         var resultado = agenda.eliminarCita(cita);
 
         // Como el turno está pendiente, la operación debería retornar true
