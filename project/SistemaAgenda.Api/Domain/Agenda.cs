@@ -32,6 +32,7 @@ public class Agenda
 
     public List<Cita> consultarCitas(string dni)
     {
-        return _citasProgramadas;
+        return _citasProgramadas.FindAll(cita => string.Equals(cita.UsuarioAsignado.Dni, dni, StringComparison.OrdinalIgnoreCase))
+                                .ToList();
     }
 }

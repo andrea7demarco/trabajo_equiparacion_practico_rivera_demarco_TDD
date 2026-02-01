@@ -17,11 +17,29 @@ public class ConsultarCitasTestCase
             Dni = "45060776"
         };
 
-        agenda.consultarCitas(usuario.Dni);
+        List<Cita> resultado = agenda.consultarCitas(usuario.Dni);
 
         // Como no hay citas, ni de ese usuario ni de nadie más, 
         // la lista debería seguir vacía y no ser nula
-        Assert.NotNull(agenda.CitasProgramadas);
-        Assert.Empty(agenda.CitasProgramadas);
+        Assert.NotNull(resultado);
+        Assert.Empty(resultado);
+
+        // Agrego citas a la lista de programadas pero no asignadas
+        // al usuario en cuestión que realiza la consulta
+        agenda.CitasProgramadas.Add(new Cita()
+        {
+           UsuarioAsignado = new Usuario() { Dni = "26012488" },
+           Fecha = DateTime.Now.AddDays(2),
+           Estado = EstadoCita.Confirmado 
+        });
+        agenda.CitasProgramadas.Add(new Cita()
+        {
+           UsuarioAsignado = new Usuario() { Dni = "23412345" },
+           Fecha = DateTime.Now.AddDays(4),
+           Estado = EstadoCita.Pendiente 
+        });
+
+        resultado = agenda.consultarCitas(usuario.Dni);
+        Assert.Empty(resultado);
     }
 }
