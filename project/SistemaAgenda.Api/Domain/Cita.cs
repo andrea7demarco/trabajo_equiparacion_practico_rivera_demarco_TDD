@@ -2,18 +2,7 @@ namespace SistemaAgenda.Api.Domain;
 
 public class Cita
 {
-    private Usuario _usuarioAsignado;
-    private DateTime _fecha;
-    private EstadoCita _estado;
-
-    public Cita()
-    {
-        _usuarioAsignado = new Usuario();
-        _fecha = DateTime.Now;
-        _estado = EstadoCita.Pendiente;
-    }
-    
-    public Usuario UsuarioAsignado { get => _usuarioAsignado; set => _usuarioAsignado = value; }
-    public DateTime Fecha { get => _fecha; set => _fecha = value; }
-    public EstadoCita Estado { get => _estado; set => _estado = value; }
+    public Usuario UsuarioAsignado { get; set; }
+    public DateTime Fecha { get; set; }
+    public EstadoCita Estado { get; set; }
 }
