@@ -46,7 +46,7 @@ public class ConfirmarCitaTestCase
         Assert.True(agenda.confirmarCita(usuarioLogueado.Dni, fechaCita));
 
         // Verifico que el estado de la cita se modifique a 'Confirmado'
-        var cita = agenda.consultarCitas(usuarioLogueado.Dni).First(cita => cita.Fecha == fechaCita);
+        var cita = agenda.consultarCita(usuarioLogueado.Dni, fechaCita);
         Assert.NotNull(cita);
         Assert.Equal(EstadoCita.Confirmado, cita.Estado);
     }
