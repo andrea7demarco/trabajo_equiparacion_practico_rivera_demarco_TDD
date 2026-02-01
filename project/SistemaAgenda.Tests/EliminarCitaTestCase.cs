@@ -36,4 +36,21 @@ public class EliminarCitaTestCase
 
         Assert.False(agenda.eliminarCita(cita));
     }
+
+    [Fact]
+    public void TestEliminarTurnoProximo()
+    {
+        var agenda = new Agenda();
+        var cita = new Cita()
+        {
+            Fecha = DateTime.Now.AddHours(2),
+            Estado = EstadoCita.Pendiente
+        };
+
+        Assert.False(agenda.eliminarCita(cita));
+
+        cita.Fecha = DateTime.Now.AddHours(2).AddSeconds(1);
+        
+        Assert.True(agenda.eliminarCita(cita));
+    }
 }
