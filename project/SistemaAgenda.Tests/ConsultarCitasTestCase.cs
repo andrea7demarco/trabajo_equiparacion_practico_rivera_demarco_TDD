@@ -42,4 +42,52 @@ public class ConsultarCitasTestCase
         resultado = agenda.consultarCitas(usuario.Dni);
         Assert.Empty(resultado);
     }
+
+    [Fact]
+    public void TestConsultarCitasUsuarioConCitas()
+    {
+        Usuario usuarioConsulta = new Usuario() { Dni = "45060776" };
+        var agenda = new Agenda()
+        {
+            CitasProgramadas = new List<Cita>()
+            {
+                new Cita()
+                {
+                    UsuarioAsignado = new Usuario() { Dni = "26012488" },
+                    Fecha = DateTime.Now.AddDays(2),
+                    Estado = EstadoCita.Confirmado 
+                },
+                new Cita() {
+                    UsuarioAsignado = new Usuario() { Dni = "23412345" },
+                    Fecha = DateTime.Now.AddDays(4),
+                    Estado = EstadoCita.Pendiente 
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioConsulta,
+                    Fecha = DateTime.Now.AddDays(1),
+                    Estado = EstadoCita.Confirmado 
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioConsulta,
+                    Fecha = DateTime.Now.AddDays(4),
+                    Estado = EstadoCita.Pendiente
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioConsulta,
+                    Fecha = new DateTime(2025, 12, 12),
+                    Estado = EstadoCita.Confirmado 
+                },
+            }
+        };
+
+        // Se crearon 3 citas con el usuario que consulta, por lo que la lista debería
+        // devolver 3 resultados y todos deberían contener los datos del usuario que consulta
+        List<Cita> resultado = agenda.consultarCitas(usuarioConsulta.Dni);
+
+        Assert.All(resultado, cita => Assert.Equal(usuarioConsulta.Dni, cita.UsuarioAsignado.Dni));
+        Assert.True(resultado.Count() == 3);
+    }
 }
