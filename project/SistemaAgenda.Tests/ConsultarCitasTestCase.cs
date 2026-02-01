@@ -49,6 +49,7 @@ public class ConsultarCitasTestCase
         Usuario usuarioConsulta = new Usuario() { Dni = "45060776" };
         var agenda = new Agenda()
         {
+            DniUsuarioLogueado = usuarioConsulta.Dni,
             CitasProgramadas = new List<Cita>()
             {
                 new Cita()
@@ -89,5 +90,52 @@ public class ConsultarCitasTestCase
 
         Assert.All(resultado, cita => Assert.Equal(usuarioConsulta.Dni, cita.UsuarioAsignado.Dni));
         Assert.True(resultado.Count() == 3);
+    }
+
+    [Fact]
+    public void TestConsultarCitasOtroUsuario()
+    {
+        var usuarioConsulta = new Usuario() { Dni = "45060776" };
+        var agenda = new Agenda()
+        {
+            DniUsuarioLogueado = usuarioConsulta.Dni,
+            CitasProgramadas = new List<Cita>()
+            {
+                new Cita()
+                {
+                    UsuarioAsignado = new Usuario() { Dni = "26012488" },
+                    Fecha = DateTime.Now.AddDays(2),
+                    Estado = EstadoCita.Confirmado 
+                },
+                new Cita() {
+                    UsuarioAsignado = new Usuario() { Dni = "26012488" },
+                    Fecha = DateTime.Now.AddDays(4),
+                    Estado = EstadoCita.Pendiente 
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioConsulta,
+                    Fecha = DateTime.Now.AddDays(1),
+                    Estado = EstadoCita.Confirmado 
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioConsulta,
+                    Fecha = DateTime.Now.AddDays(4),
+                    Estado = EstadoCita.Pendiente
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = usuarioConsulta,
+                    Fecha = new DateTime(2025, 12, 12),
+                    Estado = EstadoCita.Confirmado 
+                },
+            }
+        };
+
+        // Como el DNI consultado es distinto del DNI del usuario logueado
+        // entonces la lista retornada debería ser vacía
+        List<Cita> resultado = agenda.consultarCitas("26012488");
+        Assert.Empty(resultado);
     }
 }

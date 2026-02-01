@@ -1,21 +1,30 @@
+using Microsoft.VisualBasic;
+
 namespace SistemaAgenda.Api.Domain;
 
 public class Agenda
 {
 
     private List<Cita> _citasProgramadas;
+    private string _dniUsuarioLogueado;
 
     public Agenda()
     {
         _citasProgramadas = new List<Cita>();
+        _dniUsuarioLogueado = string.Empty;
     }
 
     public List<Cita> CitasProgramadas
     {
         get => _citasProgramadas;
-        set => _citasProgramadas = value ?? new List<Cita>();
+        set => _citasProgramadas = value;
     }
 
+    public string DniUsuarioLogueado
+    {
+        get => _dniUsuarioLogueado;
+        set => _dniUsuarioLogueado = value;
+    }
 
     public bool eliminarCita(Cita turno)
     {
@@ -32,6 +41,9 @@ public class Agenda
 
     public List<Cita> consultarCitas(string dni)
     {
+        if (!string.Equals(_dniUsuarioLogueado, dni, StringComparison.OrdinalIgnoreCase))
+            return new List<Cita>();
+
         return _citasProgramadas.FindAll(cita => string.Equals(cita.UsuarioAsignado.Dni, dni, StringComparison.OrdinalIgnoreCase))
                                 .ToList();
     }
