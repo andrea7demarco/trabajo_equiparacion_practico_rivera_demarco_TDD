@@ -64,4 +64,34 @@ public class ConfirmarCitaTestCase
 
         Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCita));
     }
+
+    [Fact]
+    public void TestConfirmarCitaNoPendiente()
+    {
+        var dniUsuarioLogueado = "45060776";
+        var fechaCitaA = DateTime.Now.AddDays(3);
+        var fechaCitaB = DateTime.Now.AddDays(2);
+        var agenda = new Agenda()
+        {
+            DniUsuarioLogueado = dniUsuarioLogueado,
+            CitasProgramadas = new List<Cita>()
+            {
+                new Cita() {
+                    UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
+                    Fecha = fechaCitaA,
+                    Estado = EstadoCita.Cancelado
+                },
+                new Cita()
+                {
+                    UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
+                    Fecha = fechaCitaB,
+                    Estado = EstadoCita.Confirmado 
+                },
+            }
+        };
+
+        // No deberían confirmarse citas ya confirmadas o canceladas
+        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCitaA));
+        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCitaB));
+    }
 }

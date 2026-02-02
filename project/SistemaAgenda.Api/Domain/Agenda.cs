@@ -60,6 +60,8 @@ public class Agenda
         var citaConsultada = consultarCita(dni, fecha);
         if (citaConsultada == null)
             return false;
+        if (citaConsultada.Estado == EstadoCita.Cancelado || citaConsultada.Estado == EstadoCita.Confirmado)
+            return false;
             
         citaConsultada.Estado = EstadoCita.Confirmado;
         return true;
