@@ -26,16 +26,20 @@ public class Agenda
         set => _dniUsuarioLogueado = value;
     }
 
-    public bool eliminarCita(Cita turno)
+    public bool eliminarCita(string dni, DateTime fecha)
     {
-        if (turno.Estado == EstadoCita.Confirmado || turno.Estado == EstadoCita.Cancelado)
+        var cita = consultarCita(dni, fecha);
+        if (cita == null)
             return false;
 
-        TimeSpan timeSpan = DateTime.Now - turno.Fecha;
+        if (cita.Estado == EstadoCita.Confirmado || cita.Estado == EstadoCita.Cancelado)
+            return false;
+
+        TimeSpan timeSpan = DateTime.Now - cita.Fecha;
         if (Math.Abs(timeSpan.TotalHours) <= 2)
             return false;
 
-        turno.Estado = EstadoCita.Cancelado;
+        cita.Estado = EstadoCita.Cancelado;
         return true;
     }
 

@@ -15,8 +15,15 @@ public class EliminarCitaTestCase
     [Fact]
     public void TestEliminarTurnoPendiente()
     {
-        var cita = new Cita();
-        var resultado = agenda.eliminarCita(cita);
+        var cita = new Cita()
+        {
+            UsuarioAsignado = new Usuario() { Dni = "45060776" },
+            Fecha = DateTime.Now.AddDays(3),
+            Estado = EstadoCita.Pendiente
+        };
+        agenda.CitasProgramadas.Add(cita);
+
+        var resultado = agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha);
 
         // Como el turno está pendiente, la operación debería retornar true
         // y el turno debería eliminarse    
@@ -32,10 +39,13 @@ public class EliminarCitaTestCase
     {
         var cita = new Cita()
         {
+            UsuarioAsignado = new Usuario() { Dni = "45060776" },
+            Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Confirmado
         };
+        agenda.CitasProgramadas.Add(cita);
 
-        Assert.False(agenda.eliminarCita(cita));
+        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
         Assert.Equal(EstadoCita.Confirmado, cita.Estado);
     }
 
@@ -44,16 +54,18 @@ public class EliminarCitaTestCase
     {
         var cita = new Cita()
         {
+            UsuarioAsignado = new Usuario() { Dni = "45060776" },
             Fecha = DateTime.Now.AddHours(2),
             Estado = EstadoCita.Pendiente
         };
+        agenda.CitasProgramadas.Add(cita);
 
-        Assert.False(agenda.eliminarCita(cita));
+        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
         Assert.Equal(EstadoCita.Pendiente, cita.Estado);
 
         cita.Fecha = DateTime.Now.AddHours(2).AddSeconds(1);
 
-        Assert.True(agenda.eliminarCita(cita));
+        Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
     }
 
     [Fact]
@@ -61,9 +73,30 @@ public class EliminarCitaTestCase
     {
         var cita = new Cita()
         {
+            UsuarioAsignado = new Usuario() { Dni = "45060776" },
+            Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Cancelado
         };
+        agenda.CitasProgramadas.Add(cita);
 
-        Assert.False(agenda.eliminarCita(cita));
+        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
+    }
+
+    [Fact]
+    public void TestEliminarCitaInexistente()
+    {
+        var cita = new Cita()
+        {
+            UsuarioAsignado = new Usuario() { Dni = "45060776" },
+            Fecha = DateTime.Now.AddDays(3),
+            Estado = EstadoCita.Pendiente
+        };
+
+        // Debería devolver false porque aún no lo agregué a la Agenda
+        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
+
+        // Agrego a la agenda y pruebo de nuevo
+        agenda.CitasProgramadas.Add(cita);
+        Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
     }
 }
