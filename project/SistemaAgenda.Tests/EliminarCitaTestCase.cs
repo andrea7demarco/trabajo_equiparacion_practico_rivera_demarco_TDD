@@ -1,4 +1,5 @@
 using SistemaAgenda.Api.Domain;
+using SistemaAgenda.Api.Persistence;
 
 namespace SistemaAgenda.Tests;
 
@@ -6,10 +7,11 @@ namespace SistemaAgenda.Tests;
 public class EliminarCitaTestCase
 {
     private readonly Agenda agenda;
+    private readonly CitaRepositoryMemoryImpl citaRepository = new();
 
     public EliminarCitaTestCase()
     {
-        agenda = new Agenda();
+        agenda = new Agenda(citaRepository);
     }
 
     [Fact]
@@ -21,7 +23,7 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Pendiente
         };
-        agenda.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         var resultado = agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha);
 
@@ -43,7 +45,7 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Confirmado
         };
-        agenda.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
         Assert.Equal(EstadoCita.Confirmado, cita.Estado);
@@ -58,7 +60,7 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddHours(2),
             Estado = EstadoCita.Pendiente
         };
-        agenda.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
         Assert.Equal(EstadoCita.Pendiente, cita.Estado);
@@ -77,7 +79,7 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Cancelado
         };
-        agenda.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
     }
@@ -96,7 +98,7 @@ public class EliminarCitaTestCase
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
 
         // Agrego a la agenda y pruebo de nuevo
-        agenda.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
         Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
     }
 }

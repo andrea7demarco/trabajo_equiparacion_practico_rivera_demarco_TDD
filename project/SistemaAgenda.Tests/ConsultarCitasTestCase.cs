@@ -1,17 +1,18 @@
 using SistemaAgenda.Api.Domain;
+using SistemaAgenda.Api.Persistence;
 
 namespace SistemaAgenda.Tests;
 
 // Caso de uso: CU-04 -> Consultar citas
 public class ConsultarCitasTestCase
 {
+
+    private readonly CitaRepositoryMemoryImpl citaRepository = new();
+
     [Fact]
     public void TestConsultarCitasUsuarioSinCitas()
     {
-        var agenda = new Agenda()
-        {
-            CitasProgramadas = new List<Cita>()
-        };
+        var agenda = new Agenda(citaRepository);
         var usuario = new Usuario()
         {
             Dni = "45060776"
@@ -26,13 +27,13 @@ public class ConsultarCitasTestCase
 
         // Agrego citas a la lista de programadas pero no asignadas
         // al usuario en cuestión que realiza la consulta
-        agenda.CitasProgramadas.Add(new Cita()
+        citaRepository.CitasProgramadas.Add(new Cita()
         {
            UsuarioAsignado = new Usuario() { Dni = "26012488" },
            Fecha = DateTime.Now.AddDays(2),
            Estado = EstadoCita.Confirmado 
         });
-        agenda.CitasProgramadas.Add(new Cita()
+        citaRepository.CitasProgramadas.Add(new Cita()
         {
            UsuarioAsignado = new Usuario() { Dni = "23412345" },
            Fecha = DateTime.Now.AddDays(4),
@@ -47,41 +48,42 @@ public class ConsultarCitasTestCase
     public void TestConsultarCitasUsuarioConCitas()
     {
         Usuario usuarioConsulta = new Usuario() { Dni = "45060776" };
-        var agenda = new Agenda()
+        var agenda = new Agenda(citaRepository)
         {
-            DniUsuarioLogueado = usuarioConsulta.Dni,
-            CitasProgramadas = new List<Cita>()
+            DniUsuarioLogueado = usuarioConsulta.Dni
+        };
+
+        citaRepository.CitasProgramadas = new List<Cita>()
+        {
+            new Cita()
             {
-                new Cita()
-                {
-                    UsuarioAsignado = new Usuario() { Dni = "26012488" },
-                    Fecha = DateTime.Now.AddDays(2),
-                    Estado = EstadoCita.Confirmado 
-                },
-                new Cita() {
-                    UsuarioAsignado = new Usuario() { Dni = "23412345" },
-                    Fecha = DateTime.Now.AddDays(4),
-                    Estado = EstadoCita.Pendiente 
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioConsulta,
-                    Fecha = DateTime.Now.AddDays(1),
-                    Estado = EstadoCita.Confirmado 
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioConsulta,
-                    Fecha = DateTime.Now.AddDays(4),
-                    Estado = EstadoCita.Pendiente
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioConsulta,
-                    Fecha = new DateTime(2025, 12, 12),
-                    Estado = EstadoCita.Confirmado 
-                },
-            }
+                UsuarioAsignado = new Usuario() { Dni = "26012488" },
+                Fecha = DateTime.Now.AddDays(2),
+                Estado = EstadoCita.Confirmado 
+            },
+            new Cita() {
+                UsuarioAsignado = new Usuario() { Dni = "23412345" },
+                Fecha = DateTime.Now.AddDays(4),
+                Estado = EstadoCita.Pendiente 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioConsulta,
+                Fecha = DateTime.Now.AddDays(1),
+                Estado = EstadoCita.Confirmado 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioConsulta,
+                Fecha = DateTime.Now.AddDays(4),
+                Estado = EstadoCita.Pendiente
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioConsulta,
+                Fecha = new DateTime(2025, 12, 12),
+                Estado = EstadoCita.Confirmado 
+            },
         };
 
         // Se crearon 3 citas con el usuario que consulta, por lo que la lista debería
@@ -96,41 +98,43 @@ public class ConsultarCitasTestCase
     public void TestConsultarCitasOtroUsuario()
     {
         var usuarioConsulta = new Usuario() { Dni = "45060776" };
-        var agenda = new Agenda()
+
+        var agenda = new Agenda(citaRepository)
         {
-            DniUsuarioLogueado = usuarioConsulta.Dni,
-            CitasProgramadas = new List<Cita>()
+            DniUsuarioLogueado = usuarioConsulta.Dni
+        };
+
+        citaRepository.CitasProgramadas = new List<Cita>()
+        {
+            new Cita()
             {
-                new Cita()
-                {
-                    UsuarioAsignado = new Usuario() { Dni = "26012488" },
-                    Fecha = DateTime.Now.AddDays(2),
-                    Estado = EstadoCita.Confirmado 
-                },
-                new Cita() {
-                    UsuarioAsignado = new Usuario() { Dni = "26012488" },
-                    Fecha = DateTime.Now.AddDays(4),
-                    Estado = EstadoCita.Pendiente 
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioConsulta,
-                    Fecha = DateTime.Now.AddDays(1),
-                    Estado = EstadoCita.Confirmado 
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioConsulta,
-                    Fecha = DateTime.Now.AddDays(4),
-                    Estado = EstadoCita.Pendiente
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioConsulta,
-                    Fecha = new DateTime(2025, 12, 12),
-                    Estado = EstadoCita.Confirmado 
-                },
-            }
+                UsuarioAsignado = new Usuario() { Dni = "26012488" },
+                Fecha = DateTime.Now.AddDays(2),
+                Estado = EstadoCita.Confirmado 
+            },
+            new Cita() {
+                UsuarioAsignado = new Usuario() { Dni = "26012488" },
+                Fecha = DateTime.Now.AddDays(4),
+                Estado = EstadoCita.Pendiente 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioConsulta,
+                Fecha = DateTime.Now.AddDays(1),
+                Estado = EstadoCita.Confirmado 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioConsulta,
+                Fecha = DateTime.Now.AddDays(4),
+                Estado = EstadoCita.Pendiente
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioConsulta,
+                Fecha = new DateTime(2025, 12, 12),
+                Estado = EstadoCita.Confirmado 
+            },
         };
 
         // Como el DNI consultado es distinto del DNI del usuario logueado
@@ -147,17 +151,13 @@ public class ConsultarCitasTestCase
         string dniConLetras = "F1341216";
         string dniFormatoInvalido = "45.060.776";
 
-        var agenda = new Agenda()
-        {
-            CitasProgramadas = new List<Cita>
-            {
-                new Cita() { 
+        var agenda = new Agenda(citaRepository);
+        citaRepository.CitasProgramadas.Add(new Cita() { 
                     UsuarioAsignado = new Usuario() { Dni = "45060776" }, 
                     Fecha = DateTime.Now.AddDays(1), 
                     Estado = EstadoCita.Pendiente 
                 }
-            }
-        };
+        );
 
         List<Cita> resultado = agenda.consultarCitas(dniNulo);
         Assert.NotNull(resultado);
