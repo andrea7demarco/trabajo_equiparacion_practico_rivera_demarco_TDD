@@ -1,23 +1,18 @@
 using Microsoft.VisualBasic;
+using SistemaAgenda.Api.Persistence;
 
 namespace SistemaAgenda.Api.Domain;
 
 public class Agenda
 {
-
-    private List<Cita> _citasProgramadas;
     private string _dniUsuarioLogueado;
 
-    public Agenda()
-    {
-        _citasProgramadas = new List<Cita>();
-        _dniUsuarioLogueado = string.Empty;
-    }
+    private ICitaRepository _citaRepository;
 
-    public List<Cita> CitasProgramadas
+    public Agenda(ICitaRepository citaRepository)
     {
-        get => _citasProgramadas;
-        set => _citasProgramadas = value;
+        _dniUsuarioLogueado = string.Empty;
+        _citaRepository = citaRepository;
     }
 
     public string DniUsuarioLogueado
@@ -28,7 +23,7 @@ public class Agenda
 
     public bool eliminarCita(string dni, DateTime fecha)
     {
-        var cita = consultarCita(dni, fecha);
+        var cita = _citaRepository.ObtenerPorUsuario(dni, fecha);
         if (cita == null)
             return false;
 
@@ -50,18 +45,17 @@ public class Agenda
         if (!string.Equals(_dniUsuarioLogueado, dni, StringComparison.OrdinalIgnoreCase))
             return new List<Cita>();
 
-        return _citasProgramadas.Where(cita => string.Equals(cita.UsuarioAsignado.Dni, dni, StringComparison.OrdinalIgnoreCase))
-                                .ToList();
+        return _citaRepository.ObtenerPorUsuario(dni);
     }
 
     public Cita? consultarCita(string dni, DateTime fecha)
     {
-        return _citasProgramadas.FirstOrDefault(cita => cita.UsuarioAsignado.Dni == dni && cita.Fecha == fecha);
+        return _citaRepository.ObtenerPorUsuario(dni, fecha);
     }
 
     public bool confirmarCita(string dni, DateTime fecha)
     {
-        var citaConsultada = consultarCita(dni, fecha);
+        var citaConsultada = _citaRepository.ObtenerPorUsuario(dni, fecha);
         if (citaConsultada == null)
             return false;
         if (citaConsultada.Estado == EstadoCita.Cancelado || citaConsultada.Estado == EstadoCita.Confirmado)

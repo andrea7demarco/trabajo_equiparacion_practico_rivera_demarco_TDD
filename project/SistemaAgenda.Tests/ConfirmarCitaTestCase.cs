@@ -1,44 +1,49 @@
 using SistemaAgenda.Api.Domain;
+using SistemaAgenda.Api.Persistence;
 
 namespace SistemaAgenda.Tests;
 
 // CU-05 -> Confirmar una cita
 public class ConfirmarCitaTestCase
 {
+    private readonly CitaRepositoryMemoryImpl citaRepository = new();
+
     [Fact]
     public void TestConfirmarCitaProgramada()
     {
         var usuarioLogueado = new Usuario() { Dni = "45060776" };
         var fechaCita = DateTime.Now.AddDays(4);
-        var agenda = new Agenda()
+
+        var agenda = new Agenda(citaRepository)
         {
-            DniUsuarioLogueado = usuarioLogueado.Dni,
-            CitasProgramadas = new List<Cita>()
+            DniUsuarioLogueado = usuarioLogueado.Dni
+        };
+
+        citaRepository.CitasProgramadas = new List<Cita>()
+        {
+            new Cita() {
+                UsuarioAsignado = new Usuario() { Dni = "23412345" },
+                Fecha = DateTime.Now.AddDays(4),
+                Estado = EstadoCita.Pendiente 
+            },
+            new Cita()
             {
-                new Cita() {
-                    UsuarioAsignado = new Usuario() { Dni = "23412345" },
-                    Fecha = DateTime.Now.AddDays(4),
-                    Estado = EstadoCita.Pendiente 
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioLogueado,
-                    Fecha = DateTime.Now.AddDays(1),
-                    Estado = EstadoCita.Confirmado 
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioLogueado,
-                    Fecha = new DateTime(2025, 12, 12),
-                    Estado = EstadoCita.Cancelado
-                },
-                // Cita a confirmar
-                new Cita()
-                {
-                    UsuarioAsignado = usuarioLogueado,
-                    Fecha = fechaCita,
-                    Estado = EstadoCita.Pendiente
-                }
+                UsuarioAsignado = usuarioLogueado,
+                Fecha = DateTime.Now.AddDays(1),
+                Estado = EstadoCita.Confirmado 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioLogueado,
+                Fecha = new DateTime(2025, 12, 12),
+                Estado = EstadoCita.Cancelado
+            },
+            // Cita a confirmar
+            new Cita()
+            {
+                UsuarioAsignado = usuarioLogueado,
+                Fecha = fechaCita,
+                Estado = EstadoCita.Pendiente
             }
         };
 
@@ -56,10 +61,9 @@ public class ConfirmarCitaTestCase
     {
         var dniUsuarioLogueado = "45060776";
         var fechaCita = DateTime.Now.AddDays(4);
-        var agenda = new Agenda()
+        var agenda = new Agenda(citaRepository)
         {
             DniUsuarioLogueado = dniUsuarioLogueado,
-            CitasProgramadas = new List<Cita>()
         };
 
         Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCita));
@@ -71,23 +75,25 @@ public class ConfirmarCitaTestCase
         var dniUsuarioLogueado = "45060776";
         var fechaCitaA = DateTime.Now.AddDays(3);
         var fechaCitaB = DateTime.Now.AddDays(2);
-        var agenda = new Agenda()
+
+        var agenda = new Agenda(citaRepository)
         {
-            DniUsuarioLogueado = dniUsuarioLogueado,
-            CitasProgramadas = new List<Cita>()
+            DniUsuarioLogueado = dniUsuarioLogueado
+        };
+
+        citaRepository.CitasProgramadas = new List<Cita>()
+        {
+            new Cita() {
+                UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
+                Fecha = fechaCitaA,
+                Estado = EstadoCita.Cancelado
+            },
+            new Cita()
             {
-                new Cita() {
-                    UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
-                    Fecha = fechaCitaA,
-                    Estado = EstadoCita.Cancelado
-                },
-                new Cita()
-                {
-                    UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
-                    Fecha = fechaCitaB,
-                    Estado = EstadoCita.Confirmado 
-                },
-            }
+                UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
+                Fecha = fechaCitaB,
+                Estado = EstadoCita.Confirmado 
+            },
         };
 
         // No deberían confirmarse citas ya confirmadas o canceladas
