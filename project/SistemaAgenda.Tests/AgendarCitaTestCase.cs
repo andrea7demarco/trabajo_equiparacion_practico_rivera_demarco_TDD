@@ -25,7 +25,7 @@ namespace SistemaAgenda.Tests
 
             Assert.True(resultado.Exito); 
             Assert.Equal("Cita agendada con éxito", resultado.Mensaje); 
-            Assert.Equal("Pendiente", resultado.Estado);
+            Assert.Equal("Pendiente de confirmación", resultado.Estado);
         }
 
         [Fact]
