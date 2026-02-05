@@ -12,16 +12,19 @@ public class CitaRepositoryMemoryImpl : ICitaRepository
         set => _citasProgramadas = value;
     }
 
+    /// <inheritdoc/>
     public bool Eliminar(Cita cita)
     {
         return _citasProgramadas.Remove(cita);
     }
 
+    /// <inheritdoc/>
     public List<Cita> ObtenerPorUsuario(string dni)
     {
         return _citasProgramadas.Where(cita => cita.UsuarioAsignado.Dni.Equals(dni, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
+    /// <inheritdoc/>
     public Cita? ObtenerPorUsuario(string dni, DateTime fecha)
     {
         return _citasProgramadas.FirstOrDefault(cita => cita.UsuarioAsignado.Dni.Equals(dni, StringComparison.OrdinalIgnoreCase) && cita.Fecha == fecha);
