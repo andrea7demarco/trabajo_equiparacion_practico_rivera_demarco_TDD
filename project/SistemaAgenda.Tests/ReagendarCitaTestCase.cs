@@ -31,7 +31,7 @@ namespace SistemaAgenda.Tests
         }
 
         [Fact]
-        public void TestReagendarCita_MenosDe8Horas_DeberiaFallar()
+        public void TestReagendarCita_MenosDe8Horas()
         {
             
             var servicio = new ServicioAgenda();
