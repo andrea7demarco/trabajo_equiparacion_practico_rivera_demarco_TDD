@@ -7,12 +7,12 @@ namespace SistemaAgenda.Tests;
 // Caso de uso: CU-03 -> Eliminar una cita
 public class EliminarCitaTestCase
 {
-    private readonly Agenda agenda;
+    private readonly AgendaServiceImpl agenda;
     private readonly CitaRepositoryMemoryImpl citaRepository = new();
 
     public EliminarCitaTestCase()
     {
-        agenda = new Agenda(citaRepository);
+        agenda = new AgendaServiceImpl(citaRepository);
     }
 
     [Fact]

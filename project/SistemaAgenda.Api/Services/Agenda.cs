@@ -1,16 +1,15 @@
-using Microsoft.VisualBasic;
 using SistemaAgenda.Api.Models;
 using SistemaAgenda.Api.Persistence;
 
 namespace SistemaAgenda.Api.Services;
 
-public class Agenda
+public class AgendaServiceImpl : IAgendaService
 {
     private string _dniUsuarioLogueado;
 
     private ICitaRepository _citaRepository;
 
-    public Agenda(ICitaRepository citaRepository)
+    public AgendaServiceImpl(ICitaRepository citaRepository)
     {
         _dniUsuarioLogueado = string.Empty;
         _citaRepository = citaRepository;
@@ -22,6 +21,7 @@ public class Agenda
         set => _dniUsuarioLogueado = value;
     }
 
+    /// <inheritdoc/>
     public bool eliminarCita(string dni, DateTime fecha)
     {
         var cita = _citaRepository.ObtenerPorUsuario(dni, fecha);
@@ -39,6 +39,7 @@ public class Agenda
         return true;
     }
 
+    /// <inheritdoc/>
     public List<Cita> consultarCitas(string dni)
     {
         if (string.IsNullOrEmpty(dni))
@@ -49,11 +50,13 @@ public class Agenda
         return _citaRepository.ObtenerPorUsuario(dni);
     }
 
+    /// <inheritdoc/>
     public Cita? consultarCita(string dni, DateTime fecha)
     {
         return _citaRepository.ObtenerPorUsuario(dni, fecha);
     }
 
+    /// <inheritdoc/>
     public bool confirmarCita(string dni, DateTime fecha)
     {
         var citaConsultada = _citaRepository.ObtenerPorUsuario(dni, fecha);

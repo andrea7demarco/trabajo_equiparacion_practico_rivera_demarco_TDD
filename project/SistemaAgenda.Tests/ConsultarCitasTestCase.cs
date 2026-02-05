@@ -13,7 +13,7 @@ public class ConsultarCitasTestCase
     [Fact]
     public void TestConsultarCitasUsuarioSinCitas()
     {
-        var agenda = new Agenda(citaRepository);
+        var agenda = new AgendaServiceImpl(citaRepository);
         var usuario = new Usuario()
         {
             Dni = "45060776"
@@ -49,7 +49,7 @@ public class ConsultarCitasTestCase
     public void TestConsultarCitasUsuarioConCitas()
     {
         Usuario usuarioConsulta = new Usuario() { Dni = "45060776" };
-        var agenda = new Agenda(citaRepository)
+        var agenda = new AgendaServiceImpl(citaRepository)
         {
             DniUsuarioLogueado = usuarioConsulta.Dni
         };
@@ -100,7 +100,7 @@ public class ConsultarCitasTestCase
     {
         var usuarioConsulta = new Usuario() { Dni = "45060776" };
 
-        var agenda = new Agenda(citaRepository)
+        var agenda = new AgendaServiceImpl(citaRepository)
         {
             DniUsuarioLogueado = usuarioConsulta.Dni
         };
@@ -152,7 +152,7 @@ public class ConsultarCitasTestCase
         string dniConLetras = "F1341216";
         string dniFormatoInvalido = "45.060.776";
 
-        var agenda = new Agenda(citaRepository);
+        var agenda = new AgendaServiceImpl(citaRepository);
         citaRepository.CitasProgramadas.Add(new Cita() { 
                     UsuarioAsignado = new Usuario() { Dni = "45060776" }, 
                     Fecha = DateTime.Now.AddDays(1), 

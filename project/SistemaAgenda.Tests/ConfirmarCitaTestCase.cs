@@ -15,7 +15,7 @@ public class ConfirmarCitaTestCase
         var usuarioLogueado = new Usuario() { Dni = "45060776" };
         var fechaCita = DateTime.Now.AddDays(4);
 
-        var agenda = new Agenda(citaRepository)
+        var agenda = new AgendaServiceImpl(citaRepository)
         {
             DniUsuarioLogueado = usuarioLogueado.Dni
         };
@@ -62,7 +62,7 @@ public class ConfirmarCitaTestCase
     {
         var dniUsuarioLogueado = "45060776";
         var fechaCita = DateTime.Now.AddDays(4);
-        var agenda = new Agenda(citaRepository)
+        var agenda = new AgendaServiceImpl(citaRepository)
         {
             DniUsuarioLogueado = dniUsuarioLogueado,
         };
@@ -77,7 +77,7 @@ public class ConfirmarCitaTestCase
         var fechaCitaA = DateTime.Now.AddDays(3);
         var fechaCitaB = DateTime.Now.AddDays(2);
 
-        var agenda = new Agenda(citaRepository)
+        var agenda = new AgendaServiceImpl(citaRepository)
         {
             DniUsuarioLogueado = dniUsuarioLogueado
         };
