@@ -2,7 +2,9 @@
 
 using Xunit;
 using SistemaAgenda.Services; 
-using SistemaAgenda.Models;   
+using SistemaAgenda.Models;
+using SistemaAgenda.Api.Models;
+using SistemaAgenda.Api.Services;
 
 namespace SistemaAgenda.Tests
 {
@@ -12,12 +14,12 @@ namespace SistemaAgenda.Tests
         public void TestAgendarCita()
         {
          
-            var servicio = new ServicioAgenda(); 
+            var servicio = new AgendaServiceImpl(); 
             
-            var solicitud = new SolicitudCita
+            var solicitud = new Cita
             {
-                NombreCliente = "Juan Perez",
-                FechaCita = new DateTime(2024, 7, 15, 10, 0, 0),
+                UsuarioAsignado = new Usuario() { Dni = "45060776" },
+                Fecha = new DateTime(2024, 7, 15, 10, 0, 0),
             };
 
       

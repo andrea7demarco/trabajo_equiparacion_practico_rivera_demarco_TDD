@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic; // Necesario para usar List<>
 using SistemaAgenda.Models;
+using SistemaAgenda.Api.Models;
 
 namespace SistemaAgenda.Services
 {
@@ -17,7 +18,6 @@ namespace SistemaAgenda.Services
 
         private const string MENSAJE_CITA_NO_ENCONTRADA = "Cita no encontrada"; //no existe
         private const int HORAS_MINIMAS_PARA_REAGENDAR = 8;
-        // Esta lista actúa como nuestra "Base de Datos" temporal
         private Dictionary<Guid,DateTime> _turnosAgendados = new Dictionary<Guid,DateTime>();
 
         public RespuestaCita AgendarCita(SolicitudCita solicitud)
