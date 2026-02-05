@@ -34,22 +34,22 @@ namespace SistemaAgenda.Tests
         public void TestAgendarCita_HorarioOcupado_DeberiaFallar()
         {
            
-            var servicio = new ServicioAgenda();
+            var servicio = new AgendaServiceImpl();
             var fechaConflictiva = DateTime.Now.AddDays(2);
 
             // Primero agendamos a Ana (esto debería funcionar)
-            servicio.AgendarCita(new SolicitudCita 
+            servicio.AgendarCita(new Cita
             { 
-                NombreCliente = "Ana", 
-                FechaCita = fechaConflictiva 
+                UsuarioAsignado = new Usuario() { Dni = "Ana" }, 
+                Fecha = fechaConflictiva 
             });
 
             
             // Intentamos agendar a Pedro A LA MISMA HORA
-            var solicitudPedro = new SolicitudCita 
+            var solicitudPedro = new Cita
             { 
-                NombreCliente = "Pedro", 
-                FechaCita = fechaConflictiva 
+                UsuarioAsignado = new Usuario() { Dni = "Pedro" }, 
+                Fecha = fechaConflictiva 
             };
             
             var resultado = servicio.AgendarCita(solicitudPedro);
