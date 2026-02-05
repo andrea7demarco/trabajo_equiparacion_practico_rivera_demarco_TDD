@@ -13,6 +13,7 @@ public class AgendaServiceImpl : IAgendaService
     {
         _dniUsuarioLogueado = string.Empty;
         _citaRepository = citaRepository;
+        _citaRepository = citaRepository;
     }
 
     public string DniUsuarioLogueado
@@ -24,6 +25,7 @@ public class AgendaServiceImpl : IAgendaService
     /// <inheritdoc/>
     public bool eliminarCita(string dni, DateTime fecha)
     {
+        var cita = _citaRepository.ObtenerPorUsuario(dni, fecha);
         var cita = _citaRepository.ObtenerPorUsuario(dni, fecha);
         if (cita == null)
             return false;
@@ -48,17 +50,20 @@ public class AgendaServiceImpl : IAgendaService
             return new List<Cita>();
 
         return _citaRepository.ObtenerPorUsuario(dni);
+        return _citaRepository.ObtenerPorUsuario(dni);
     }
 
     /// <inheritdoc/>
     public Cita? consultarCita(string dni, DateTime fecha)
     {
         return _citaRepository.ObtenerPorUsuario(dni, fecha);
+        return _citaRepository.ObtenerPorUsuario(dni, fecha);
     }
 
     /// <inheritdoc/>
     public bool confirmarCita(string dni, DateTime fecha)
     {
+        var citaConsultada = _citaRepository.ObtenerPorUsuario(dni, fecha);
         var citaConsultada = _citaRepository.ObtenerPorUsuario(dni, fecha);
         if (citaConsultada == null)
             return false;

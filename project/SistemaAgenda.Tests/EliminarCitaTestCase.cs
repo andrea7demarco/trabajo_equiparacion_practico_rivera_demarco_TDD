@@ -25,6 +25,7 @@ public class EliminarCitaTestCase
             Estado = EstadoCita.Pendiente
         };
         citaRepository.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         var resultado = agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha);
 
@@ -47,6 +48,7 @@ public class EliminarCitaTestCase
             Estado = EstadoCita.Confirmado
         };
         citaRepository.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
         Assert.Equal(EstadoCita.Confirmado, cita.Estado);
@@ -61,6 +63,7 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddHours(2),
             Estado = EstadoCita.Pendiente
         };
+        citaRepository.CitasProgramadas.Add(cita);
         citaRepository.CitasProgramadas.Add(cita);
 
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
@@ -81,6 +84,7 @@ public class EliminarCitaTestCase
             Estado = EstadoCita.Cancelado
         };
         citaRepository.CitasProgramadas.Add(cita);
+        citaRepository.CitasProgramadas.Add(cita);
 
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
     }
@@ -99,6 +103,7 @@ public class EliminarCitaTestCase
         Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
 
         // Agrego a la agenda y pruebo de nuevo
+        citaRepository.CitasProgramadas.Add(cita);
         citaRepository.CitasProgramadas.Add(cita);
         Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
     }

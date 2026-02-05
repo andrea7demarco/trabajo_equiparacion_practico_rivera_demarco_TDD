@@ -9,6 +9,8 @@ public class ConfirmarCitaTestCase
 {
     private readonly CitaRepositoryMemoryImpl citaRepository = new();
 
+    private readonly CitaRepositoryMemoryImpl citaRepository = new();
+
     [Fact]
     public void TestConfirmarCitaProgramada()
     {
@@ -17,6 +19,34 @@ public class ConfirmarCitaTestCase
 
         var agenda = new AgendaServiceImpl(citaRepository)
         {
+            DniUsuarioLogueado = usuarioLogueado.Dni
+        };
+
+        citaRepository.CitasProgramadas = new List<Cita>()
+        {
+            new Cita() {
+                UsuarioAsignado = new Usuario() { Dni = "23412345" },
+                Fecha = DateTime.Now.AddDays(4),
+                Estado = EstadoCita.Pendiente 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioLogueado,
+                Fecha = DateTime.Now.AddDays(1),
+                Estado = EstadoCita.Confirmado 
+            },
+            new Cita()
+            {
+                UsuarioAsignado = usuarioLogueado,
+                Fecha = new DateTime(2025, 12, 12),
+                Estado = EstadoCita.Cancelado
+            },
+            // Cita a confirmar
+            new Cita()
+            {
+                UsuarioAsignado = usuarioLogueado,
+                Fecha = fechaCita,
+                Estado = EstadoCita.Pendiente
             DniUsuarioLogueado = usuarioLogueado.Dni
         };
 
@@ -79,6 +109,22 @@ public class ConfirmarCitaTestCase
 
         var agenda = new AgendaServiceImpl(citaRepository)
         {
+            DniUsuarioLogueado = dniUsuarioLogueado
+        };
+
+        citaRepository.CitasProgramadas = new List<Cita>()
+        {
+            new Cita() {
+                UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
+                Fecha = fechaCitaA,
+                Estado = EstadoCita.Cancelado
+            },
+            new Cita()
+            {
+                UsuarioAsignado = new Usuario() { Dni = dniUsuarioLogueado },
+                Fecha = fechaCitaB,
+                Estado = EstadoCita.Confirmado 
+            },
             DniUsuarioLogueado = dniUsuarioLogueado
         };
 
