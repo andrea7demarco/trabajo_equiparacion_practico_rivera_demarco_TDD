@@ -87,6 +87,7 @@ public class AgendaServiceImpl : IAgendaService
         return true;
     }
 
+    /// <inheritdoc/>
     public RespuestaCita AgendarCita(Cita solicitud)
     {
         if (EsFechaOcupada(solicitud.Fecha))
@@ -100,6 +101,7 @@ public class AgendaServiceImpl : IAgendaService
         return CrearRespuestaExitosa(citaAgendada.Id, MENSAJE_EXITO);
     }
 
+    /// <inheritdoc/>
     public RespuestaCita ReagendarCita(Guid idCita, DateTime nuevaFecha)
     {
         // 1. Validar existencia
@@ -137,7 +139,6 @@ public class AgendaServiceImpl : IAgendaService
     {
         return _citaRepository.ObtenerCitas().Any(cita => cita.Fecha == fecha);
     }
-    
 
     private bool ExisteCita(Guid id)
     {
@@ -160,20 +161,6 @@ public class AgendaServiceImpl : IAgendaService
         var horasRestantes = (fechaOriginal - DateTime.Now).TotalHours;
         return horasRestantes <= HORAS_MINIMAS_PARA_REAGENDAR;
     }
-
-    // private Guid GuardarNuevoTurno(DateTime fecha)
-    // {
-    //     var id = Guid.NewGuid();
-    //     _turnosAgendados.Add(id, fecha);
-    //     return id;
-    // }
-
-    // private void ActualizarFechaCita(Guid id, DateTime nuevaFecha)
-    // {
-    //     _turnosAgendados[id] = nuevaFecha;
-    // }
-
-    // --- Fábricas de Respuestas ---
 
     private RespuestaCita CrearRespuestaExitosa(Guid id, string mensaje)
     {
