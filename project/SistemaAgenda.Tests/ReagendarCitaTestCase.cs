@@ -1,7 +1,3 @@
-using Xunit;
-using SistemaAgenda.Services;
-using SistemaAgenda.Models;
-using System;
 using SistemaAgenda.Api.Services;
 using SistemaAgenda.Api.Models;
 
@@ -24,10 +20,8 @@ namespace SistemaAgenda.Tests
             var respuestaAgendar = servicio.AgendarCita(solicitud);
             var idCita = respuestaAgendar.IdCita; 
 
-           //completar dsps
             var resultado = servicio.ReagendarCita(idCita, fechaNueva);
 
-            
             Assert.True(resultado.Exito);
             Assert.Equal("Turno reagendado", resultado.Mensaje);
         }

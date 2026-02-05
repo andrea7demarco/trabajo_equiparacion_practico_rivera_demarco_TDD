@@ -15,13 +15,15 @@ public class AgendaServiceImpl : IAgendaService
 
     private const string MENSAJE_CITA_NO_ENCONTRADA = "Cita no encontrada"; //no existe
     private const int HORAS_MINIMAS_PARA_REAGENDAR = 8;
-    private Dictionary<Guid,DateTime> _turnosAgendados = new Dictionary<Guid,DateTime>();
+    private List<Cita> _turnosAgendados = new List<Cita>();
 
     private string _dniUsuarioLogueado;
     private ICitaRepository _citaRepository;
 
     public AgendaServiceImpl()
     {
+        _dniUsuarioLogueado = string.Empty;
+        _citaRepository = new CitaRepositoryMemoryImpl();
     }
 
     public AgendaServiceImpl(ICitaRepository citaRepository)
@@ -92,9 +94,10 @@ public class AgendaServiceImpl : IAgendaService
             return CrearRespuestaFallida(MENSAJE_TURNO_NO_DISPONIBLE);
         }
 
-        var id = GuardarNuevoTurno(solicitud.Fecha);
+        var citaAgendada = _citaRepository.AgendarCita(solicitud);
+        // var id = GuardarNuevoTurno(solicitud.Fecha);
 
-        return CrearRespuestaExitosa(id, MENSAJE_EXITO);
+        return CrearRespuestaExitosa(citaAgendada.Id, MENSAJE_EXITO);
     }
 
     public RespuestaCita ReagendarCita(Guid idCita, DateTime nuevaFecha)
@@ -119,24 +122,37 @@ public class AgendaServiceImpl : IAgendaService
         }
 
         // 4. Actualizar
-        ActualizarFechaCita(idCita, nuevaFecha);
+        var cita = _citaRepository.ObtenerPorId(idCita);
+        if (cita == null)
+            return CrearRespuestaFallida($"No existe cita de id {idCita}");
+
+        cita.Fecha = nuevaFecha;
+        _citaRepository.ReagendarCita(cita);
+        // ActualizarFechaCita(idCita, nuevaFecha);
 
         return CrearRespuestaExitosa(idCita, MENSAJE_REAGENDA_EXITO);
     }
 
     private bool EsFechaOcupada(DateTime fecha)
     {
-        return _turnosAgendados.ContainsValue(fecha);
+        return _citaRepository.ObtenerCitas().Any(cita => cita.Fecha == fecha);
     }
+    
 
     private bool ExisteCita(Guid id)
     {
-        return _turnosAgendados.ContainsKey(id);
+        return _citaRepository.ObtenerCitas().Any(cita => cita.Id == id);
     }
 
     private DateTime ObtenerFecha(Guid id)
     {
-        return _turnosAgendados[id];
+        var cita = _citaRepository.ObtenerPorId(id);
+        if (cita is null)
+        {
+            throw new Exception($"No existe cita de id {id}");
+        }
+
+        return cita.Fecha;        
     }
 
     private bool EsTardeParaCambios(DateTime fechaOriginal)
@@ -145,17 +161,17 @@ public class AgendaServiceImpl : IAgendaService
         return horasRestantes <= HORAS_MINIMAS_PARA_REAGENDAR;
     }
 
-    private Guid GuardarNuevoTurno(DateTime fecha)
-    {
-        var id = Guid.NewGuid();
-        _turnosAgendados.Add(id, fecha);
-        return id;
-    }
+    // private Guid GuardarNuevoTurno(DateTime fecha)
+    // {
+    //     var id = Guid.NewGuid();
+    //     _turnosAgendados.Add(id, fecha);
+    //     return id;
+    // }
 
-    private void ActualizarFechaCita(Guid id, DateTime nuevaFecha)
-    {
-        _turnosAgendados[id] = nuevaFecha;
-    }
+    // private void ActualizarFechaCita(Guid id, DateTime nuevaFecha)
+    // {
+    //     _turnosAgendados[id] = nuevaFecha;
+    // }
 
     // --- Fábricas de Respuestas ---
 
