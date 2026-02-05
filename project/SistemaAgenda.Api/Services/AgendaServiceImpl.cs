@@ -8,7 +8,6 @@ public class AgendaServiceImpl : IAgendaService
     //mensajes para las respuestas
     private const string MENSAJE_EXITO = "Cita agendada con éxito";
     private const string MENSAJE_TURNO_NO_DISPONIBLE = "El turno ya no está disponible";
-    private const string ESTADO_PENDIENTE = "Pendiente de confirmación";
 
     private const string MENSAJE_REAGENDA_EXITO = "Turno reagendado";
     private const string MENSAJE_ERROR_TIEMPO = "No se puede reagendar con menos de 8 horas de anticipación";
@@ -168,7 +167,7 @@ public class AgendaServiceImpl : IAgendaService
         {
             Exito = true,
             Mensaje = mensaje,
-            Estado = ESTADO_PENDIENTE,
+            Estado = _citaRepository.ObtenerPorId(id)!.Estado, // To-Do: usar el Estado del objeto Cita directamente
             IdCita = id
         };
     }

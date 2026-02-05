@@ -18,10 +18,7 @@ namespace SistemaAgenda.Services
 
         private const string MENSAJE_CITA_NO_ENCONTRADA = "Cita no encontrada"; //no existe
         private const int HORAS_MINIMAS_PARA_REAGENDAR = 8;
-<<<<<<< HEAD
         
-=======
->>>>>>> 2b7d8caa7d17d77f039fbd9e48696d4bec24bc26
         private Dictionary<Guid,DateTime> _turnosAgendados = new Dictionary<Guid,DateTime>();
 
         public RespuestaCita AgendarCita(SolicitudCita solicitud)
@@ -105,7 +102,7 @@ namespace SistemaAgenda.Services
             {
                 Exito = true,
                 Mensaje = mensaje,
-                Estado = ESTADO_PENDIENTE,
+                Estado = EstadoCita.Pendiente,
                 IdCita = id
             };
         }
