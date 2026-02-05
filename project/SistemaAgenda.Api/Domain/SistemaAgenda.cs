@@ -14,74 +14,111 @@ namespace SistemaAgenda.Services
 
         private const string MENSAJE_REAGENDA_EXITO = "Turno reagendado";
         private const string MENSAJE_ERROR_TIEMPO = "No se puede reagendar con menos de 8 horas de anticipación";
+
+        private const string MENSAJE_CITA_NO_ENCONTRADA = "Cita no encontrada"; //no existe
+        private const int HORAS_MINIMAS_PARA_REAGENDAR = 8;
         // Esta lista actúa como nuestra "Base de Datos" temporal
         private Dictionary<Guid,DateTime> _turnosAgendados = new Dictionary<Guid,DateTime>();
 
         public RespuestaCita AgendarCita(SolicitudCita solicitud)
         {
-            //comprueba si el turno ya esta agendado
-            if (_turnosAgendados.ContainsValue(solicitud.FechaCita))
+            if (EsFechaOcupada(solicitud.FechaCita))
             {
-                // Si existe, devolvemos error (Para que pase el test de Horario Ocupado)
-                return new RespuestaCita
-                {
-                    Exito = false,
-                    Mensaje = MENSAJE_TURNO_NO_DISPONIBLE
-                };
+                return CrearRespuestaFallida(MENSAJE_TURNO_NO_DISPONIBLE);
             }
 
-            //genero el ID para poder guardarlo
-            var idCita = Guid.NewGuid();
+            var id = GuardarNuevoTurno(solicitud.FechaCita);
 
-            // 2. GUARDADO: Si no existe, la guardamos en la lista
-            _turnosAgendados.Add(idCita, solicitud.FechaCita);
-
-            // 3. RESPUESTA DE ÉXITO (Para que pase el test Happy Path)
-            return new RespuestaCita
-            {
-                Exito = true,
-                Mensaje = MENSAJE_EXITO,
-                Estado = ESTADO_PENDIENTE,
-                IdCita = idCita //el mismo id q ya guardé
-            };
+            return CrearRespuestaExitosa(id, MENSAJE_EXITO);
         }
 
         public RespuestaCita ReagendarCita(Guid idCita, DateTime nuevaFecha)
         {
-            //  Obtenemos la fecha actual del turno usando el ID
-            // Asumo que el id existe 
-            var fechaOriginal = _turnosAgendados[idCita];
-
-            // valido las 8 horas
-            if ((fechaOriginal - DateTime.Now).TotalHours <= 8)
+            // 1. Validar existencia
+            if (!ExisteCita(idCita))
             {
-                return new RespuestaCita
-                {
-                    Exito = false,
-                    Mensaje = MENSAJE_ERROR_TIEMPO
-                };
+                return CrearRespuestaFallida(MENSAJE_CITA_NO_ENCONTRADA);
             }
 
-            // verifico si la nueva fecha ya está ocupada
-            if (_turnosAgendados.ContainsValue(nuevaFecha))
+            // 2. Validar tiempo (Regla de las 8 horas)
+            var fechaOriginal = ObtenerFecha(idCita);
+            if (EsTardeParaCambios(fechaOriginal))
             {
-                 return new RespuestaCita
-                {
-                    Exito = false,
-                    Mensaje = MENSAJE_TURNO_NO_DISPONIBLE
-                };
+                return CrearRespuestaFallida(MENSAJE_ERROR_TIEMPO);
             }
 
-            // sobreescribo la fecha vieja con la nueva
-            _turnosAgendados[idCita] = nuevaFecha;
+            // 3. Validar disponibilidad
+            if (EsFechaOcupada(nuevaFecha))
+            {
+                return CrearRespuestaFallida(MENSAJE_TURNO_NO_DISPONIBLE);
+            }
 
+            // 4. Actualizar
+            ActualizarFechaCita(idCita, nuevaFecha);
+
+            return CrearRespuestaExitosa(idCita, MENSAJE_REAGENDA_EXITO);
+        }
+
+
+        private bool EsFechaOcupada(DateTime fecha)
+        {
+            return _turnosAgendados.ContainsValue(fecha);
+        }
+
+        private bool ExisteCita(Guid id)
+        {
+            return _turnosAgendados.ContainsKey(id);
+        }
+
+        private DateTime ObtenerFecha(Guid id)
+        {
+            return _turnosAgendados[id];
+        }
+
+        private bool EsTardeParaCambios(DateTime fechaOriginal)
+        {
+            var horasRestantes = (fechaOriginal - DateTime.Now).TotalHours;
+            return horasRestantes <= HORAS_MINIMAS_PARA_REAGENDAR;
+        }
+
+        private Guid GuardarNuevoTurno(DateTime fecha)
+        {
+            var id = Guid.NewGuid();
+            _turnosAgendados.Add(id, fecha);
+            return id;
+        }
+
+        private void ActualizarFechaCita(Guid id, DateTime nuevaFecha)
+        {
+            _turnosAgendados[id] = nuevaFecha;
+        }
+
+        // --- Fábricas de Respuestas ---
+
+        private RespuestaCita CrearRespuestaExitosa(Guid id, string mensaje)
+        {
             return new RespuestaCita
             {
                 Exito = true,
-                Mensaje = MENSAJE_REAGENDA_EXITO,
-                IdCita = idCita
+                Mensaje = mensaje,
+                Estado = ESTADO_PENDIENTE,
+                IdCita = id
             };
         }
+
+        private RespuestaCita CrearRespuestaFallida(string mensajeError)
+        {
+            return new RespuestaCita
+            {
+                Exito = false,
+                Mensaje = mensajeError
+            };
+        }
+
+
+        
+
+       
 
 
         
