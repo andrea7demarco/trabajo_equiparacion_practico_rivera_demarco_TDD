@@ -1,5 +1,6 @@
-using SistemaAgenda.Api.Domain;
+using SistemaAgenda.Api.Models;
 using SistemaAgenda.Api.Persistence;
+using SistemaAgenda.Api.Services;
 
 namespace SistemaAgenda.Tests;
 

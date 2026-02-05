@@ -1,4 +1,4 @@
-namespace SistemaAgenda.Api.Domain;
+namespace SistemaAgenda.Api.Models;
 
 public class Cita
 {

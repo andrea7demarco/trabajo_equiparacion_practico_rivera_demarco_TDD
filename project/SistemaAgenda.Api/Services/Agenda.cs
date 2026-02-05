@@ -1,7 +1,8 @@
 using Microsoft.VisualBasic;
+using SistemaAgenda.Api.Models;
 using SistemaAgenda.Api.Persistence;
 
-namespace SistemaAgenda.Api.Domain;
+namespace SistemaAgenda.Api.Services;
 
 public class Agenda
 {

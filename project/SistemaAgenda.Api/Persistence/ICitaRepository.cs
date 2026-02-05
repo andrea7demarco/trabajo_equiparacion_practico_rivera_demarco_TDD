@@ -1,4 +1,4 @@
-using SistemaAgenda.Api.Domain;
+using SistemaAgenda.Api.Models;
 
 namespace SistemaAgenda.Api.Persistence;
 
