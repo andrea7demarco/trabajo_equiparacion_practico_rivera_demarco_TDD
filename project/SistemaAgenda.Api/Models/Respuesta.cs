@@ -1,6 +1,6 @@
 
 using System;
-namespace SistemaAgenda.Models
+namespace SistemaAgenda.Api.Models
 {
 public class RespuestaCita
 {

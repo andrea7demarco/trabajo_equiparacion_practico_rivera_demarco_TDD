@@ -1,7 +1,5 @@
-using Xunit;
-using SistemaAgenda.Services;
-using SistemaAgenda.Models;
-using System;
+using SistemaAgenda.Api.Services;
+using SistemaAgenda.Api.Models;
 
 namespace SistemaAgenda.Tests
 {
@@ -10,22 +8,20 @@ namespace SistemaAgenda.Tests
         [Fact]
         public void TestReagendarCita_FlujoNormal()
         {
-            var servicio = new ServicioAgenda();
+            var servicio = new AgendaServiceImpl();
             var fechaOriginal = DateTime.Now.AddDays(2); // Pasado mañana
             var fechaNueva = DateTime.Now.AddDays(3);    // Tres días después
 
-            var solicitud = new SolicitudCita 
+            var solicitud = new Cita
             { 
-                NombreCliente = "Maria", 
-                FechaCita = fechaOriginal 
+                UsuarioAsignado = new Usuario() { Dni = "44553408" }, 
+                Fecha = fechaOriginal 
             };
             var respuestaAgendar = servicio.AgendarCita(solicitud);
             var idCita = respuestaAgendar.IdCita; 
 
-           //completar dsps
             var resultado = servicio.ReagendarCita(idCita, fechaNueva);
 
-            
             Assert.True(resultado.Exito);
             Assert.Equal("Turno reagendado", resultado.Mensaje);
         }
@@ -34,15 +30,18 @@ namespace SistemaAgenda.Tests
         public void TestReagendarCita_MenosDe8Horas()
         {
             
-            var servicio = new ServicioAgenda();
+            var servicio = new AgendaServiceImpl();
             // Creo una cita que es dentro de 2 horas (menos de 8)
             var fechaCercana = DateTime.Now.AddHours(2); 
             
-            var solicitud = new SolicitudCita { NombreCliente = "Urgente", FechaCita = fechaCercana };
+            var solicitud = new Cita {
+                 UsuarioAsignado = new Usuario() { Dni = "Urgente" }, 
+                 Fecha = fechaCercana 
+            };
             var respuestaAgendar = servicio.AgendarCita(solicitud);
             var idCita = respuestaAgendar.IdCita;
 
-            // cambio para maniana 
+            // cambio para mañana 
             var resultado = servicio.ReagendarCita(idCita, DateTime.Now.AddDays(1));
 
             

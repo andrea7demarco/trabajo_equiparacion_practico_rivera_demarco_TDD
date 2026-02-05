@@ -34,4 +34,19 @@ public interface IAgendaService
     /// <param name="fecha">Fecha de la cita</param>
     /// <returns>True si se logra eliminar, False en caso contrario</returns>
     bool confirmarCita(string dni, DateTime fecha);
+
+    /// <summary>
+    /// Agenda una nueva cita
+    /// </summary>
+    /// <param name="solicitud">Datos de la cita a agendar</param>
+    /// <returns>Objeto RespuestaCita con el estado de la petición</returns>
+    RespuestaCita AgendarCita(Cita solicitud);
+
+    /// <summary>
+    /// Reagenda una cita existente
+    /// </summary>
+    /// <param name="idCita">ID de la cita a reagendar</param>
+    /// <param name="nuevaFecha">Nueva fecha</param>
+    /// <returns>Objeto RespuestaCita con el estado de la petición</returns>
+    RespuestaCita ReagendarCita(Guid idCita, DateTime nuevaFecha);
 }

@@ -2,7 +2,9 @@
 
 using Xunit;
 using SistemaAgenda.Services; 
-using SistemaAgenda.Models;   
+using SistemaAgenda.Models;
+using SistemaAgenda.Api.Models;
+using SistemaAgenda.Api.Services;
 
 namespace SistemaAgenda.Tests
 {
@@ -12,12 +14,12 @@ namespace SistemaAgenda.Tests
         public void TestAgendarCita()
         {
          
-            var servicio = new ServicioAgenda(); 
+            var servicio = new AgendaServiceImpl(); 
             
-            var solicitud = new SolicitudCita
+            var solicitud = new Cita
             {
-                NombreCliente = "Juan Perez",
-                FechaCita = new DateTime(2024, 7, 15, 10, 0, 0),
+                UsuarioAsignado = new Usuario() { Dni = "45060776" },
+                Fecha = new DateTime(2024, 7, 15, 10, 0, 0),
             };
 
       
@@ -32,22 +34,22 @@ namespace SistemaAgenda.Tests
         public void TestAgendarCita_HorarioOcupado_DeberiaFallar()
         {
            
-            var servicio = new ServicioAgenda();
+            var servicio = new AgendaServiceImpl();
             var fechaConflictiva = DateTime.Now.AddDays(2);
 
             // Primero agendamos a Ana (esto debería funcionar)
-            servicio.AgendarCita(new SolicitudCita 
+            servicio.AgendarCita(new Cita
             { 
-                NombreCliente = "Ana", 
-                FechaCita = fechaConflictiva 
+                UsuarioAsignado = new Usuario() { Dni = "Ana" }, 
+                Fecha = fechaConflictiva 
             });
 
             
             // Intentamos agendar a Pedro A LA MISMA HORA
-            var solicitudPedro = new SolicitudCita 
+            var solicitudPedro = new Cita
             { 
-                NombreCliente = "Pedro", 
-                FechaCita = fechaConflictiva 
+                UsuarioAsignado = new Usuario() { Dni = "Pedro" }, 
+                Fecha = fechaConflictiva 
             };
             
             var resultado = servicio.AgendarCita(solicitudPedro);
