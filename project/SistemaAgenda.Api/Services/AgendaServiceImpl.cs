@@ -177,7 +177,8 @@ public class AgendaServiceImpl : IAgendaService
         {
             Exito = true,
             Mensaje = mensaje,
-            Resultado = cita
+            Estado = ESTADO_PENDIENTE,
+            IdCita = id
         };
     }
 
