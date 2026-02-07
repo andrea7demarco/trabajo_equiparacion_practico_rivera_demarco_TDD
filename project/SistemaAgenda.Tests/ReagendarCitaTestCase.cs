@@ -17,13 +17,13 @@ namespace SistemaAgenda.Tests
                 UsuarioAsignado = new Usuario() { Dni = "44553408" }, 
                 Fecha = fechaOriginal 
             };
+
             var respuestaAgendar = servicio.AgendarCita(solicitud);
-            var idCita = respuestaAgendar.IdCita; 
+            Assert.NotNull(respuestaAgendar.Resultado);
 
-            var resultado = servicio.ReagendarCita(idCita, fechaNueva);
-
-            Assert.True(resultado.Exito);
+            var resultado = servicio.ReagendarCita(respuestaAgendar.Resultado.Id, fechaNueva);
             Assert.Equal("Turno reagendado", resultado.Mensaje);
+            Assert.True(resultado.Exito);
         }
 
         [Fact]
@@ -39,12 +39,9 @@ namespace SistemaAgenda.Tests
                  Fecha = fechaCercana 
             };
             var respuestaAgendar = servicio.AgendarCita(solicitud);
-            var idCita = respuestaAgendar.IdCita;
+            Assert.NotNull(respuestaAgendar.Resultado);
 
-            // cambio para mañana 
-            var resultado = servicio.ReagendarCita(idCita, DateTime.Now.AddDays(1));
-
-            
+            var resultado = servicio.ReagendarCita(respuestaAgendar.Resultado.Id, DateTime.Now.AddDays(1));
             Assert.False(resultado.Exito);
             Assert.Equal("No se puede reagendar con menos de 8 horas de anticipación", resultado.Mensaje);
         }

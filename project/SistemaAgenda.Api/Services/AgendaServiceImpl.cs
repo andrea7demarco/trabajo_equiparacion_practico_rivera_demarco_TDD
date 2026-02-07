@@ -98,7 +98,7 @@ public class AgendaServiceImpl : IAgendaService
         var citaAgendada = _citaRepository.AgendarCita(solicitud);
         // var id = GuardarNuevoTurno(solicitud.Fecha);
 
-        return CrearRespuestaExitosa(citaAgendada.Id, MENSAJE_EXITO);
+        return CrearRespuestaExitosa(citaAgendada, MENSAJE_EXITO);
     }
 
     /// <inheritdoc/>
@@ -132,7 +132,7 @@ public class AgendaServiceImpl : IAgendaService
         _citaRepository.ReagendarCita(cita);
         // ActualizarFechaCita(idCita, nuevaFecha);
 
-        return CrearRespuestaExitosa(idCita, MENSAJE_REAGENDA_EXITO);
+        return CrearRespuestaExitosa(cita, MENSAJE_REAGENDA_EXITO);
     }
 
     private bool EsFechaOcupada(DateTime fecha)
@@ -142,7 +142,8 @@ public class AgendaServiceImpl : IAgendaService
 
     private bool ExisteCita(Guid id)
     {
-        return _citaRepository.ObtenerCitas().Any(cita => cita.Id == id);
+        Cita? cita = _citaRepository.ObtenerPorId(id);
+        return cita != null && cita.Id != Guid.Empty;
     }
 
     private DateTime ObtenerFecha(Guid id)
@@ -162,14 +163,13 @@ public class AgendaServiceImpl : IAgendaService
         return horasRestantes <= HORAS_MINIMAS_PARA_REAGENDAR;
     }
 
-    private RespuestaCita CrearRespuestaExitosa(Guid id, string mensaje)
+    private RespuestaCita CrearRespuestaExitosa(Cita cita, string mensaje)
     {
         return new RespuestaCita
         {
             Exito = true,
             Mensaje = mensaje,
-            Estado = ESTADO_PENDIENTE,
-            IdCita = id
+            Resultado = cita
         };
     }
 

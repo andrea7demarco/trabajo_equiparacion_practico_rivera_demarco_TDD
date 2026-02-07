@@ -1,11 +1,7 @@
-//Caso de uso CU-01: Agendar una cita
-
-using Xunit;
-using SistemaAgenda.Services; 
-using SistemaAgenda.Models;
 using SistemaAgenda.Api.Models;
 using SistemaAgenda.Api.Services;
 
+//Caso de uso CU-01: Agendar una cita
 namespace SistemaAgenda.Tests
 {
     public class AgendarCitaTestCase
@@ -26,8 +22,10 @@ namespace SistemaAgenda.Tests
             var resultado = servicio.AgendarCita(solicitud); 
 
             Assert.True(resultado.Exito); 
+            Assert.NotNull(resultado.Resultado);
+            Assert.NotEqual(Guid.Empty, resultado.Resultado.Id);
             Assert.Equal("Cita agendada con éxito", resultado.Mensaje); 
-            Assert.Equal("Pendiente de confirmación", resultado.Estado);
+            Assert.Equal(EstadoCita.Pendiente, resultado.Resultado!.Estado);
         }
 
         [Fact]
