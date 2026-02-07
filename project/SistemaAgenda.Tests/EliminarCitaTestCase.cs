@@ -31,11 +31,12 @@ public class EliminarCitaTestCase
 
         // Como el turno está pendiente, la operación debería retornar true
         // y el turno debería eliminarse    
-        Assert.True(resultado);
+        Assert.True(resultado.Exito);
 
         // Si el turno es eliminado correctamente, debe cambiar su
         // estado a cancelado
-        Assert.True(cita.Estado == EstadoCita.Cancelado);
+        Assert.NotNull(resultado.Resultado);
+        Assert.True(resultado.Resultado.Estado == EstadoCita.Cancelado);
     }
 
     [Fact]
@@ -47,11 +48,12 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Confirmado
         };
-        citaRepository.CitasProgramadas.Add(cita);
-        citaRepository.CitasProgramadas.Add(cita);
+        agenda.AgendarCita(cita);
 
-        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
-        Assert.Equal(EstadoCita.Confirmado, cita.Estado);
+        var resultado = agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha);
+        Assert.False(resultado.Exito);
+        Assert.NotNull(resultado.Resultado);
+        Assert.Equal(EstadoCita.Confirmado, resultado.Resultado.Estado);
     }
 
     [Fact]
@@ -63,15 +65,17 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddHours(2),
             Estado = EstadoCita.Pendiente
         };
-        citaRepository.CitasProgramadas.Add(cita);
-        citaRepository.CitasProgramadas.Add(cita);
+        agenda.AgendarCita(cita);
 
-        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
-        Assert.Equal(EstadoCita.Pendiente, cita.Estado);
+        var resultado = agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha);
+        Assert.False(resultado.Exito);
+        Assert.NotNull(resultado.Resultado);
+        Assert.Equal(EstadoCita.Pendiente, resultado.Resultado.Estado);
 
         cita.Fecha = DateTime.Now.AddHours(2).AddSeconds(1);
 
-        Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
+        var resultadoNuevo = agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha);
+        Assert.True(resultadoNuevo.Exito);
     }
 
     [Fact]
@@ -83,10 +87,9 @@ public class EliminarCitaTestCase
             Fecha = DateTime.Now.AddDays(3),
             Estado = EstadoCita.Cancelado
         };
-        citaRepository.CitasProgramadas.Add(cita);
-        citaRepository.CitasProgramadas.Add(cita);
+        agenda.AgendarCita(cita);
 
-        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
+        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha).Exito);
     }
 
     [Fact]
@@ -100,11 +103,10 @@ public class EliminarCitaTestCase
         };
 
         // Debería devolver false porque aún no lo agregué a la Agenda
-        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
+        Assert.False(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha).Exito);
 
         // Agrego a la agenda y pruebo de nuevo
-        citaRepository.CitasProgramadas.Add(cita);
-        citaRepository.CitasProgramadas.Add(cita);
-        Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha));
+        agenda.AgendarCita(cita);
+        Assert.True(agenda.eliminarCita(cita.UsuarioAsignado.Dni, cita.Fecha).Exito);
     }
 }

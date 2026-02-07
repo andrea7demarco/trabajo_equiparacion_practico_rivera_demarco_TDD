@@ -7,15 +7,19 @@ public class AgendaServiceImpl : IAgendaService
 {
     //mensajes para las respuestas
     private const string MENSAJE_EXITO = "Cita agendada con éxito";
-    private const string MENSAJE_TURNO_NO_DISPONIBLE = "El turno ya no está disponible";
-    private const string ESTADO_PENDIENTE = "Pendiente de confirmación";
+    private const string MENSAJE_CONFIRMACION_EXITOSA = "Cita confirmada con éxto";
+    private const string MENSAJE_CITA_NO_DISPONIBLE = "El turno ya no está disponible";
 
     private const string MENSAJE_REAGENDA_EXITO = "Turno reagendado";
-    private const string MENSAJE_ERROR_TIEMPO = "No se puede reagendar con menos de 8 horas de anticipación";
+    private const string MENSAJE_ERROR_TIEMPO_REAGENDAR = "No se puede reagendar con menos de 8 horas de anticipación";
+    private const string MENSAJE_ERROR_TIEMPO_CANCELACION = "Se debe cancelar con más de 2 horas de anticipación";
 
     private const string MENSAJE_CITA_NO_ENCONTRADA = "Cita no encontrada"; //no existe
+
+    private const string MENSAJE_CITA_CONFIRMADA = "El turno ya se encuentra cancelado o confirmado";
+    private const string MENSAJE_CITA_ELIMINADA = "Se ha eliminado la cita";
+
     private const int HORAS_MINIMAS_PARA_REAGENDAR = 8;
-    private List<Cita> _turnosAgendados = new List<Cita>();
 
     private string _dniUsuarioLogueado;
     private ICitaRepository _citaRepository;
@@ -40,21 +44,21 @@ public class AgendaServiceImpl : IAgendaService
     }
 
     /// <inheritdoc/>
-    public bool eliminarCita(string dni, DateTime fecha)
+    public RespuestaCita eliminarCita(string dni, DateTime fecha)
     {
         var cita = _citaRepository.ObtenerPorUsuario(dni, fecha);
         if (cita == null)
-            return false;
+            return CrearRespuestaFallida(MENSAJE_CITA_NO_ENCONTRADA);
 
         if (cita.Estado == EstadoCita.Confirmado || cita.Estado == EstadoCita.Cancelado)
-            return false;
+            return CrearRespuestaFallida(MENSAJE_CITA_CONFIRMADA, cita);
 
         TimeSpan timeSpan = DateTime.Now - cita.Fecha;
         if (Math.Abs(timeSpan.TotalHours) <= 2)
-            return false;
+            return CrearRespuestaFallida(MENSAJE_ERROR_TIEMPO_CANCELACION, cita);
 
         cita.Estado = EstadoCita.Cancelado;
-        return true;
+        return CrearRespuestaExitosa(cita, MENSAJE_CITA_ELIMINADA);
     }
 
     /// <inheritdoc/>
@@ -69,22 +73,26 @@ public class AgendaServiceImpl : IAgendaService
     }
 
     /// <inheritdoc/>
-    public Cita? consultarCita(string dni, DateTime fecha)
+    public RespuestaCita consultarCita(string dni, DateTime fecha)
     {
-        return _citaRepository.ObtenerPorUsuario(dni, fecha);
+        var cita = _citaRepository.ObtenerPorUsuario(dni, fecha);
+        if (cita != null && cita.Id != Guid.Empty)
+            return CrearRespuestaExitosa(cita);
+
+        return CrearRespuestaFallida(MENSAJE_CITA_NO_ENCONTRADA);
     }
 
     /// <inheritdoc/>
-    public bool confirmarCita(string dni, DateTime fecha)
+    public RespuestaCita confirmarCita(string dni, DateTime fecha)
     {
         var citaConsultada = _citaRepository.ObtenerPorUsuario(dni, fecha);
         if (citaConsultada == null)
-            return false;
+            return CrearRespuestaFallida(MENSAJE_CITA_NO_ENCONTRADA);
         if (citaConsultada.Estado == EstadoCita.Cancelado || citaConsultada.Estado == EstadoCita.Confirmado)
-            return false;
+            return CrearRespuestaFallida(MENSAJE_CITA_CONFIRMADA, citaConsultada);
             
         citaConsultada.Estado = EstadoCita.Confirmado;
-        return true;
+        return CrearRespuestaExitosa(citaConsultada, MENSAJE_CONFIRMACION_EXITOSA);
     }
 
     /// <inheritdoc/>
@@ -92,7 +100,7 @@ public class AgendaServiceImpl : IAgendaService
     {
         if (EsFechaOcupada(solicitud.Fecha))
         {
-            return CrearRespuestaFallida(MENSAJE_TURNO_NO_DISPONIBLE);
+            return CrearRespuestaFallida(MENSAJE_CITA_NO_DISPONIBLE);
         }
 
         var citaAgendada = _citaRepository.AgendarCita(solicitud);
@@ -114,13 +122,13 @@ public class AgendaServiceImpl : IAgendaService
         var fechaOriginal = ObtenerFecha(idCita);
         if (EsTardeParaCambios(fechaOriginal))
         {
-            return CrearRespuestaFallida(MENSAJE_ERROR_TIEMPO);
+            return CrearRespuestaFallida(MENSAJE_ERROR_TIEMPO_REAGENDAR);
         }
 
         // 3. Validar disponibilidad
         if (EsFechaOcupada(nuevaFecha))
         {
-            return CrearRespuestaFallida(MENSAJE_TURNO_NO_DISPONIBLE);
+            return CrearRespuestaFallida(MENSAJE_CITA_NO_DISPONIBLE);
         }
 
         // 4. Actualizar
@@ -163,7 +171,7 @@ public class AgendaServiceImpl : IAgendaService
         return horasRestantes <= HORAS_MINIMAS_PARA_REAGENDAR;
     }
 
-    private RespuestaCita CrearRespuestaExitosa(Cita cita, string mensaje)
+    private RespuestaCita CrearRespuestaExitosa(Cita cita, string mensaje = "")
     {
         return new RespuestaCita
         {
@@ -179,6 +187,16 @@ public class AgendaServiceImpl : IAgendaService
         {
             Exito = false,
             Mensaje = mensajeError
+        };
+    }
+
+    private RespuestaCita CrearRespuestaFallida(string mensajeError, Cita cita)
+    {
+        return new RespuestaCita
+        {
+            Exito = false,
+            Mensaje = mensajeError,
+            Resultado = cita
         };
     }
 }

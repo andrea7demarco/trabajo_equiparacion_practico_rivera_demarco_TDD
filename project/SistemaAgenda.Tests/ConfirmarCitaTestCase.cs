@@ -20,41 +20,37 @@ public class ConfirmarCitaTestCase
             DniUsuarioLogueado = usuarioLogueado.Dni
         };
 
-        citaRepository.CitasProgramadas = new List<Cita>()
-        {
-            new Cita() {
-                UsuarioAsignado = new Usuario() { Dni = "23412345" },
-                Fecha = DateTime.Now.AddDays(4),
-                Estado = EstadoCita.Pendiente 
-            },
-            new Cita()
-            {
-                UsuarioAsignado = usuarioLogueado,
-                Fecha = DateTime.Now.AddDays(1),
-                Estado = EstadoCita.Confirmado 
-            },
-            new Cita()
-            {
-                UsuarioAsignado = usuarioLogueado,
-                Fecha = new DateTime(2025, 12, 12),
-                Estado = EstadoCita.Cancelado
-            },
-            // Cita a confirmar
-            new Cita()
-            {
-                UsuarioAsignado = usuarioLogueado,
-                Fecha = fechaCita,
-                Estado = EstadoCita.Pendiente
-            }
-        };
+        agenda.AgendarCita(new Cita() {
+            UsuarioAsignado = new Usuario() { Dni = "23412345" },
+            Fecha = DateTime.Now.AddDays(4),
+            Estado = EstadoCita.Pendiente 
+        });
+        agenda.AgendarCita(new Cita() {
+            UsuarioAsignado = usuarioLogueado,
+            Fecha = DateTime.Now.AddDays(1),
+            Estado = EstadoCita.Confirmado 
+        });
+        agenda.AgendarCita(new Cita(){
+            UsuarioAsignado = usuarioLogueado,
+            Fecha = new DateTime(2025, 12, 12),
+            Estado = EstadoCita.Cancelado
+        });
+        
+        // Cita a confirmar
+        agenda.AgendarCita(new Cita(){
+            UsuarioAsignado = usuarioLogueado,
+            Fecha = fechaCita,
+            Estado = EstadoCita.Pendiente
+        });
 
         // Verifico que la cita se confirme
-        Assert.True(agenda.confirmarCita(usuarioLogueado.Dni, fechaCita));
+        var resultado = agenda.confirmarCita(usuarioLogueado.Dni, fechaCita);
+        Assert.True(resultado.Exito);
 
         // Verifico que el estado de la cita se modifique a 'Confirmado'
         var cita = agenda.consultarCita(usuarioLogueado.Dni, fechaCita);
-        Assert.NotNull(cita);
-        Assert.Equal(EstadoCita.Confirmado, cita.Estado);
+        Assert.NotNull(cita.Resultado);
+        Assert.Equal(EstadoCita.Confirmado, cita.Resultado.Estado);
     }
 
     [Fact]
@@ -67,7 +63,7 @@ public class ConfirmarCitaTestCase
             DniUsuarioLogueado = dniUsuarioLogueado,
         };
 
-        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCita));
+        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCita).Exito);
     }
 
     [Fact]
@@ -98,7 +94,7 @@ public class ConfirmarCitaTestCase
         };
 
         // No deberían confirmarse citas ya confirmadas o canceladas
-        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCitaA));
-        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCitaB));
+        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCitaA).Exito);
+        Assert.False(agenda.confirmarCita(dniUsuarioLogueado, fechaCitaB).Exito);
     }
 }

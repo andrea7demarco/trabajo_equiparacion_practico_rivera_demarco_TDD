@@ -17,7 +17,7 @@ public interface IAgendaService
     /// <param name="dni">DNI del usuario a consultar</param>
     /// <param name="fecha">Fecha de la cita a consultar</param>
     /// <returns>La cita consultada o un objeto de cita vacío por defecto en caso de que no exista</returns>
-    Cita? consultarCita(string dni, DateTime fecha);
+    RespuestaCita consultarCita(string dni, DateTime fecha);
 
     /// <summary>
     /// Elimina una cita
@@ -25,7 +25,7 @@ public interface IAgendaService
     /// <param name="dni">DNI del usuario asignado a la cita</param>
     /// <param name="fecha">Fecha de la cita</param>
     /// <returns>True si se logra eliminar, False en caso contrario</returns>
-    bool eliminarCita(string dni, DateTime fecha);
+    RespuestaCita eliminarCita(string dni, DateTime fecha);
 
     /// <summary>
     /// Confirma una cita pendiente
@@ -33,7 +33,7 @@ public interface IAgendaService
     /// <param name="dni">DNI del usuario asignado a la cita</param>
     /// <param name="fecha">Fecha de la cita</param>
     /// <returns>True si se logra eliminar, False en caso contrario</returns>
-    bool confirmarCita(string dni, DateTime fecha);
+    RespuestaCita confirmarCita(string dni, DateTime fecha);
 
     /// <summary>
     /// Agenda una nueva cita
