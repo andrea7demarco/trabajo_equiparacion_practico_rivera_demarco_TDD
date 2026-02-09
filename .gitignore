@@ -72,3 +72,5 @@ publish*/
 
 # Avoid committing local user-level tool state
 *.vsconfig
+
+project/SistemaAgenda.Tests/AgendaRestControllerTests.cs

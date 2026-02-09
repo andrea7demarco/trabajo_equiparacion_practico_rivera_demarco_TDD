@@ -4,7 +4,7 @@ namespace SistemaAgenda.Api.Persistence;
 
 public class CitaRepositoryMemoryImpl : ICitaRepository
 {
-    private List<Cita> _citasProgramadas = new();
+    private static List<Cita> _citasProgramadas = new();
 
     public List<Cita> CitasProgramadas
     {

@@ -49,7 +49,7 @@ public class ConsultarCitasTestCase
     public void TestConsultarCitasUsuarioConCitas()
     {
         Usuario usuarioConsulta = new Usuario() { Dni = "45060776" };
-        var agenda = new AgendaServiceImpl(citaRepository)
+        var agenda = new AgendaServiceImpl()
         {
             DniUsuarioLogueado = usuarioConsulta.Dni
         };

@@ -66,8 +66,8 @@ public class AgendaServiceImpl : IAgendaService
     {
         if (string.IsNullOrEmpty(dni))
             return new List<Cita>();
-        if (!string.Equals(_dniUsuarioLogueado, dni, StringComparison.OrdinalIgnoreCase))
-            return new List<Cita>();
+        // if (!string.Equals(_dniUsuarioLogueado, dni, StringComparison.OrdinalIgnoreCase))
+        //     return new List<Cita>();
 
         return _citaRepository.ObtenerPorUsuario(dni);
     }
