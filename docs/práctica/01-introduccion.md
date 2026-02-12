@@ -11,6 +11,6 @@ Finalmente, el trabajo se limita deliberadamente al desarrollo del backend del s
 # Índice
 
 A continuación, los documentos donde se pueden consultar los documentos de práctica resultantes de nuestra aplicación de la metodología:
-- Casos de uso
+- [Casos de uso](02-casos-de-uso.md)
 - Iteraciones en el ciclo TDD
 - Conclusiones
