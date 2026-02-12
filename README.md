@@ -22,6 +22,9 @@ Este trabajo propone, en su parte teórica, sintetizar fundamentos y evidencia d
 - [Limitaciones y críticas](docs/05-limitaciones-y-criticas.md)
 - [Conclusiones de la teoría](docs/06-conclusiones-teoria.md)
 
+Además, a partir del siguiente documento se puede acceder a la documentación sobre la parte práctica del proyecto:
+- [Introducción a la práctica](project/README.md)
+
 ## Bibliografía consultada
 
 > [!WARNING]
