@@ -15,15 +15,16 @@ Este trabajo propone, en su parte teórica, sintetizar fundamentos y evidencia d
 
 ## Índice
 
-- [Fundamentos de TDD](docs/01-fundamentos.md)
-- [Objetivos de TDD](docs/02-objetivos.md)
-- [Las distintas direcciones de TDD](docs/03-variantes.md)
-- [Ventajas de TDD](docs/04-ventajas.md)
-- [Limitaciones y críticas](docs/05-limitaciones-y-criticas.md)
-- [Conclusiones de la teoría](docs/06-conclusiones-teoria.md)
+Los siguientes documentos contienen el marco teórico del trabajo:
+- [Fundamentos de TDD](docs/teoría/01-fundamentos.md)
+- [Objetivos de TDD](docs/teoría/02-objetivos.md)
+- [Las distintas direcciones de TDD](docs/teoría/03-variantes.md)
+- [Ventajas de TDD](docs/teoría/04-ventajas.md)
+- [Limitaciones y críticas](docs/teoría/05-limitaciones-y-criticas.md)
+- [Conclusiones de la teoría](docs/teoría/06-conclusiones-teoria.md)
 
-Además, a partir del siguiente documento se puede acceder a la documentación sobre la parte práctica del proyecto:
-- [Introducción a la práctica](project/README.md)
+Además, se puede acceder a la documentación sobre la parte práctica del proyecto desde los siguientes documentos:
+- [Introducción a la práctica](docs/práctica/01-introduccion.md)
 
 ## Bibliografía consultada
 

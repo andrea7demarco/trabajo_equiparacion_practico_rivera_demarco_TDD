@@ -13,7 +13,7 @@ La clave es hacerlo en pasos pequeños, se hace un cambio, se ejecutan todos los
 
 Miguel Carlos Fontela, en su trabajo de especialización sobre Test-Driven Development, nos adjunta un diagrama de actividades que muestra el ciclo de TDD:
 
-![Diagrama de actividades del ciclo red-green-factor de TDD](/docs/images/diagrama-ciclo-tdd.png)
+![Diagrama de actividades del ciclo red-green-factor de TDD](/docs/teoría/images/diagrama-ciclo-tdd.png)
 
 Habrán notado que al inicio de esta sección, definimos TDD como una **metodología de diseño de software** y no de pruebas, pues el enfoque principal de TDD no es proveer una suite de casos de prueba, esto es más un efecto colateral positivo de su aplicación. Desde esta perspectiva, las pruebas actúan como un mecanismo de diseño al forzar a los desarrolladores a escribirlas antes del código, e incluso, el código deriva de las mismas pruebas. De este modo, TDD impulsa la creación de unidades pequeñas altamente cohesivas y desacopladas, ya que el código difícil de probar suele indicar problemas de diseño. 
 
