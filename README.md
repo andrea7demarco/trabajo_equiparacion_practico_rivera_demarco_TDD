@@ -25,6 +25,9 @@ Los siguientes documentos contienen el marco teórico del trabajo:
 
 Además, se puede acceder a la documentación sobre la parte práctica del proyecto desde los siguientes documentos:
 - [Introducción a la práctica](docs/práctica/01-introduccion.md)
+- [Casos de uso](docs/práctica/02-casos-de-uso.md)
+- [Iteraciones TDD](docs/práctica/03-iteraciones-tdd.md)
+- [Conclusión de la práctica](docs/práctica/04-conclusion.md)
 
 ## Bibliografía consultada
 
