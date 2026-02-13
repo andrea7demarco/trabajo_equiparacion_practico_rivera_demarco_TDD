@@ -28,5 +28,8 @@ Además, se puede acceder a la documentación sobre la parte práctica del proye
 
 ## Bibliografía consultada
 
-> [!WARNING]
-> Agregar
+- http://conaiisi.frc.utn.edu.ar/PDFsParaPublicar/1/schedConfs/7/158-524-1-DR.pdf
+- https://sedici.unlp.edu.ar/bitstream/handle/10915/4216/Documento_completo.pdf?sequence=1
+- https://drive.google.com/file/d/1J-Fd4JyHkFYxbe3fFrHSVkJ3ngP7upYd/view?usp=drive_link
+- https://youtu.be/YuRdaR6wwWU?si=VgZKTwagphvrVtOS
+- https://www.youtube.com/watch?v=sA9zPyIsE-I
