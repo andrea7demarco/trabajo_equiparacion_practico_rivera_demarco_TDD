@@ -68,3 +68,7 @@
 | **CU-04** | Clase `Usuario` | Constructor inicia DNI vacío para evitar nulos. | Tests siguen funcionando. |
 | **CU-03/04/05** | Clases Test y `Agenda` | **Repositorio:** Implementación de repositorio para manejo de lista de citas. | Tests fallaron (se actualizaron para usar repositorio). |
 
+---
+
+⬅️ [Anterior](02-casos-de-uso.md) | [Siguiente](04-conclusión.md) ➡️
+
