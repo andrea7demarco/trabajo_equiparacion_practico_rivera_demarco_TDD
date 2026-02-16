@@ -129,6 +129,10 @@ ii. La cita debe tener el estado de "Pendiente"
 
 La cita debe modificar su estado a "Confirmada" en la agenda
 
-### Excepciiones
+### Excepciones
 
 2. i. Si la cita está confirmada o cancelada, el sistema informa al usuario por pantalla
+
+---
+
+⬅️ [Volver a la introducción](01-introduccion.md) | [Siguiente](02-iteraciones-tdd.md) ➡️
