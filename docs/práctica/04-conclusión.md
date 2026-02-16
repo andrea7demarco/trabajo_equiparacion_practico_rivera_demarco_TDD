@@ -35,3 +35,7 @@ Finalmente, el uso de pruebas automatizadas generó una mayor sensación de conf
 # Conclusión general
 
 La experiencia con TDD demostró que la metodología resulta especialmente útil para detectar errores de forma temprana, facilitar la refactorización y brindar mayor confianza durante el desarrollo. Sin embargo, también presentó limitaciones vinculadas a la sobre-ingeniería, la ambigüedad en el diseño orientado a objetos y la coordinación en equipos colaborativos. En función de lo observado, TDD sería una metodología recomendable para proyectos desarrollados por equipos reducidos (cinco personas o menos) y para productos que requieran salir rápidamente al mercado, donde su naturaleza incremental, ahorro de tiempo en debugging y testng, y la validación temprana del comportamiento resultan prioritarios.
+
+---
+
+⬅️ [Anterior](03-iteraciones-tdd.md) | ⬅️ [Volver al índice](01-introduccion.md)
