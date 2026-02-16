@@ -135,4 +135,4 @@ La cita debe modificar su estado a "Confirmada" en la agenda
 
 ---
 
-⬅️ [Volver a la introducción](01-introduccion.md) | [Siguiente](02-iteraciones-tdd.md) ➡️
+⬅️ [Volver a la introducción](01-introduccion.md) | [Siguiente](03-iteraciones-tdd.md) ➡️
